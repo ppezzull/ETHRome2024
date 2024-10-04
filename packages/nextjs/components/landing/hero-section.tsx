@@ -20,15 +20,15 @@ export default function HeroSection() {
         </TextShimmer>
       </div>
       <h1 className="animate-fade-in -translate-y-4 text-balance bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-5xl font-medium leading-none tracking-tighter text-transparent opacity-0 [--animation-delay:200ms] sm:text-6xl md:text-7xl lg:text-8xl dark:from-white dark:to-white/40">
-        Nyxb UI is the new way
-        <br className="hidden md:block" /> to build landing pages.
+        NoteVault brings next-gen <br className="hidden md:block" />
+        security to your data.
       </h1>
       <p className="animate-fade-in mb-12 -translate-y-4 text-balance text-lg tracking-tight text-gray-400 opacity-0 [--animation-delay:400ms] md:text-xl">
-        Beautifully designed, animated components and templates built with
-        <br className="hidden md:block" /> Tailwind CSS, React, and Framer Motion.
+        Store & share your sensitive personal data securely and privately
+        <br className="hidden md:block" /> using advanced blockchain technology.
       </p>
       <Button className="animate-fade-in -translate-y-4 gap-1 rounded-lg text-white opacity-0 ease-in-out [--animation-delay:600ms] dark:text-black">
-        <span>Get Started for free </span>
+        <span>Get started for free</span>
         <ArrowRightIcon className="ml-1 size-4 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
       </Button>
       <div

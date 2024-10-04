@@ -149,7 +149,9 @@ export default function CallToActionSection() {
             </Marquee>
             <div className="absolute z-10">
               <div className="mx-auto size-24 rounded-[2rem] border bg-white/10 p-3 shadow-2xl backdrop-blur-md lg:size-32 dark:bg-black/10">
-                <HeartHandshake className="mx-auto size-16 text-black lg:size-24 dark:text-white" />
+                {/* <Shield className="relative  cursor-pointer overflow-hidden mx-auto size-16 text-black lg:size-24 dark:text-white " /> */}
+                <Shield className="relative size-16 lg:size-24 cursor-pointer overflow-hidden mx-auto transform-gpu dark:bg-transparent" />
+                <div className="pointer-events-none absolute left-1/2 top-1/2 size-1/2 -translate-x-1/2 -translate-y-1/2 overflow-visible rounded-full bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-600 opacity-60 blur-[20px]"></div>
               </div>
               <div className="text-primary z-10 mt-4 flex flex-col items-center text-center">
                 <h1 className="text-3xl font-bold lg:text-4xl">Stop worrying about your data security.</h1>
@@ -164,7 +166,7 @@ export default function CallToActionSection() {
                     "group mt-4 rounded-[2rem] px-6",
                   )}
                 >
-                  <span>Get Started</span>
+                  <span>Try NoteVault for free</span>
                   <ChevronRight className="ml-1 size-4 transition-all duration-300 ease-out group-hover:translate-x-1" />
                 </Link>
               </div>
