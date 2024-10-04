@@ -157,7 +157,7 @@ export default function CallToActionSection() {
                 <h1 className="text-3xl font-bold lg:text-4xl">Stop worrying about your data security.</h1>
                 <p className="mt-2">Start your 7-day free trial. No credit card required.</p>
                 <Link
-                  href="#"
+                  href="/auth/login"
                   className={cn(
                     buttonVariants({
                       size: "lg",
