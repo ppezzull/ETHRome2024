@@ -1,6 +1,6 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root,
 [data-theme] {
@@ -29,4 +29,60 @@ p {
 
 .btn.btn-ghost {
   @apply shadow-none;
+}
+
+@layer base {
+  :root {
+    --background: 250 79% 95%;
+    --foreground: 250 5% 10%;
+    --card: 250 50% 90%;
+    --card-foreground: 250 5% 15%;
+    --popover: 250 79% 95%;
+    --popover-foreground: 250 95% 10%;
+    --primary: 250 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 250 30% 70%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 212 30% 85%;
+    --muted-foreground: 250 5% 40%;
+    --accent: 212 30% 80%;
+    --accent-foreground: 250 5% 15%;
+    --destructive: 0 79% 40%;
+    --destructive-foreground: 250 5% 90%;
+    --border: 250 30% 50%;
+    --input: 250 30% 40%;
+    --ring: 250 0% 100%;
+    --radius: 0.75rem;
+  }
+  .dark {
+    --background: 250 50% 10%;
+    --foreground: 250 5% 90%;
+    --card: 250 50% 10%;
+    --card-foreground: 250 5% 90%;
+    --popover: 250 50% 5%;
+    --popover-foreground: 250 5% 90%;
+    --primary: 250 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 250 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 212 30% 25%;
+    --muted-foreground: 250 5% 60%;
+    --accent: 212 30% 25%;
+    --accent-foreground: 250 5% 90%;
+    --destructive: 0 79% 40%;
+    --destructive-foreground: 250 5% 90%;
+    --border: 250 30% 40%;
+    --input: 250 30% 40%;
+    --ring: 250 0% 100%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
