@@ -1,10 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
 export default function UploadFile() {
   const [file, setFile] = useState<File | null>(null);
+
+  const uploadFile = async () => {
+    // console.log("file", file);
+  };
 
   return (
     <div className="flex flex-col items-center gap-8">
@@ -18,6 +23,7 @@ export default function UploadFile() {
           }
         }}
       />
+      <Button onClick={uploadFile}>Upload</Button>
       {file && <p>File: {file.name}</p>}
     </div>
   );
