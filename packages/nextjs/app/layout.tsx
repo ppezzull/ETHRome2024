@@ -6,8 +6,8 @@ import { cn } from "~~/lib/utils";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
-  title: "Scaffold-ETH 2 App",
-  description: "Built with 🏗 Scaffold-ETH 2",
+  title: "NoteVault",
+  description: "NoteVault",
 });
 
 const fontSans = FontSans({
