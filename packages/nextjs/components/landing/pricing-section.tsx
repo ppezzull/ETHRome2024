@@ -95,7 +95,9 @@ export default function PricingSection() {
           </h2>
 
           <p className="mt-6 text-xl leading-8 text-black/80 dark:text-white">
-            {`Choose an affordable plan that's packed with the best features for secure data exchange, ensuring privacy, and leveraging blockchain technology.`}
+            {`Choose an`}
+            <strong> affordable plan </strong>
+            {`that's packed with the best features for secure data exchange, ensuring privacy, and leveraging blockchain technology.`}
             {/* Choose an affordable plan that's packed with the best features for secure data exchange, ensuring privacy,
             and leveraging blockchain technology. Choose an <strong>affordable plan</strong> that&apos;s packed with the
             best features for engaging your audience, creating customer loyalty, and driving sales. */}
