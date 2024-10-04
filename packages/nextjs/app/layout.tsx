@@ -1,9 +1,8 @@
 import { Poppins as FontSans } from "next/font/google";
+import "@/styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
-import { ThemeProvider } from "~~/components/ThemeProvider";
-import { ny } from "~~/lib/utils";
-import "~~/styles/globals.css";
+import { cn } from "~~/lib/utils";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -21,10 +20,8 @@ const fontSans = FontSans({
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning>
-      <body className={ny("dark min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-        <ThemeProvider enableSystem>
-          <ScaffoldEthAppWithProviders>{children}</ScaffoldEthAppWithProviders>
-        </ThemeProvider>
+      <body className={cn("dark min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
+        <ScaffoldEthAppWithProviders>{children}</ScaffoldEthAppWithProviders>
       </body>
     </html>
   );
