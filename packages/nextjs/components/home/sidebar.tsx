@@ -20,6 +20,7 @@ export default function Sidebar() {
             {
               title: "DefaultVault",
               label: "",
+              href: "/",
               icon: Inbox,
               variant: pathname === "/" ? "default" : "ghost",
             },
@@ -31,18 +32,21 @@ export default function Sidebar() {
             {
               title: "Settings",
               label: "",
+              href: "/settings",
               icon: Settings,
               variant: pathname === "/settings" ? "default" : "ghost",
             },
             {
               title: "History",
               label: "",
+              href: "/history",
               icon: HistoryIcon,
               variant: pathname === "/history" ? "default" : "ghost",
             },
             {
               title: "Profile",
               label: "",
+              href: "/profile",
               icon: User2,
               variant: pathname === "/profile" ? "default" : "ghost",
             },

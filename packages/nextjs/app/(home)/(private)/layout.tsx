@@ -22,5 +22,5 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }, 3000);
   }, []);
 
-  return <>{isConnected && children}</>;
+  return <>{isConnected && <div className="p-6">{children}</div>}</>;
 }
