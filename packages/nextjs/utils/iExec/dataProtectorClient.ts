@@ -1,4 +1,4 @@
-import { useUserStore } from '../stores/user.store';
+import { useUserStore } from './user.store';
 import {
   IExecDataProtector,
   IExecDataProtectorCore,

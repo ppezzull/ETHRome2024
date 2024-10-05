@@ -3,56 +3,28 @@
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { createArrayBufferFromFile } from '../utils/';
+import { createArrayBufferFromFile } from '@/utils/iExec/utils';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { getDataProtectorClient } from '@/utils/iExec/dataProtectorClient.ts';
 
 export default function UploadFile() {
   const [file, setFile] = useState<File | null>(null);
+  const [name, setName] = useState('');
 
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-
+  const handleSubmit = async () => {
     const data: {
       email?: string;
       file?: Uint8Array;
     } = {};
     let bufferFile: Uint8Array;
-    switch (dataType) {
-      case 'email':
-        data.email = email;
-        break;
-      case 'file':
-        if (!file) {
-          toast({
-            variant: 'danger',
-            title: 'Please upload a file.',
-          });
-          return;
-        }
-        bufferFile = await createArrayBufferFromFile(file);
-        data.file = bufferFile;
-        break;
-    }
 
-    if (
-      !dataType ||
-      !name ||
-      (dataType === 'email' && !email.trim()) ||
-      (dataType === 'file' && !file)
-    ) {
-      toast({
-        variant: 'danger',
-        title: 'Please fill in all required fields.',
-      });
+    if (!file) {
+      console.log("Inserisci il file brutto cane");
+      
       return;
     }
-
-    if (dataType === 'email' && !!email && !isValidEmail) {
-      toast({
-        variant: 'danger',
-        title: 'Please enter a valid email address',
-      });
-      return;
-    }
+    bufferFile = await createArrayBufferFromFile(file);
+    data.file = bufferFile;
 
     createProtectedDataMutation.mutate({ data, name });
   };
@@ -75,9 +47,7 @@ export default function UploadFile() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['myProtectedData'] });
 
-      setTimeout(() => {
-        setShowBackToListLink(true);
-      }, 1500);
+      setTimeout(() => {}, 1500);
     },
   });
 
@@ -90,6 +60,16 @@ export default function UploadFile() {
           const file = event.target.files?.[0];
           if (file) {
             setFile(file);
+          }
+        }}
+      />
+      <Input
+        className="max-w-[300px]"
+        type="text"
+        onChange={event => {
+          const name = event.target.value;
+          if (name) {
+            setName(name);
           }
         }}
       />
