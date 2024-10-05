@@ -1,13 +1,16 @@
 "use client";
 
-import { createArrayBufferFromFile } from "@/utils/iExec/utils";
+import { 
+  createArrayBufferFromFile, 
+  BELLECOUR_CHAIN_ID, 
+  IEXEC_APP 
+} from "@/utils/iExec/utils";
 import { IExecDataProtector, ProtectedData } from "@iexec/dataprotector";
 import { toast } from "sonner";
 import { useSwitchChain } from "wagmi";
+import { async } from '../../components/editor/imageUploadHandler';
 
 export const useiExec = () => {
-  const BELLECOUR_CHAIN_ID = 134;
-
   const { switchChain } = useSwitchChain();
 
   const checkUserAddress = async () => {
@@ -146,6 +149,7 @@ export const useiExec = () => {
     try {
       const { data: file, error: fileError } = await createFile(dataString, dataName);
       const { data: session, error: sessionError } = await checkSession();
+      
 
       if (sessionError?.value || fileError?.value || !session)
         return {
@@ -186,6 +190,8 @@ export const useiExec = () => {
         },
       });
 
+      await grantAccess(protectedData.address, session.userAddress);
+
       return {
         data: protectedData,
         error: null,
@@ -218,6 +224,7 @@ export const useiExec = () => {
 
       const protectedDataList = await dataProtector.core.getProtectedData({
         owner: session.userAddress,
+        app: IEXEC_APP,
       });
 
       if (!protectedDataList) {
@@ -245,5 +252,73 @@ export const useiExec = () => {
     }
   };
 
-  return { encryptAndPushData, getMyProtectedData };
+  const grantAccess = async (_protectedData: string, _authorizedUser: string) => {
+    try {
+      const { data: session, error: sessionError } = await checkSession();
+
+      if (sessionError?.value || !session)
+        return {
+          data: null,
+          error: {
+            message: "Error creating file or checking session",
+            value: true,
+          },
+        };
+      
+      const dataProtector = new IExecDataProtector(window.ethereum);
+      
+      const grantedAccess = await dataProtector.core.grantAccess({
+        protectedData: _protectedData,
+        authorizedApp: IEXEC_APP,
+        authorizedUser: _authorizedUser,
+        pricePerAccess: 0,
+        numberOfAccess: 100000000000,
+      })
+      
+      return {
+        data: grantedAccess,
+        error: null,
+      };
+    } catch (error) {
+      return {
+        error:{
+          message: `Error granting access to ${_authorizedUser} to access ${_protectedData}`        }
+      }
+    }
+  }
+
+  const decryptData = async (_protectedData: string) => {
+    try {
+      const { data: session, error: sessionError } = await checkSession();
+
+      if (sessionError?.value || !session)
+        return {
+          data: null,
+          error: {
+            message: "Error creating file or checking session",
+            value: true,
+          },
+        };
+
+      const dataProtectorCore = new IExecDataProtector(window.ethereum);
+			
+      const processProtectedDataResponse = await dataProtectorCore.core.processProtectedData({
+				protectedData: _protectedData, // Pass the specific address
+        app: IEXEC_APP, // Replace with your app's address
+				maxPrice: 0,
+      });
+
+      return {
+        data: processProtectedDataResponse.result,
+        error: null,
+      };
+    } catch (error) {
+      return {
+        error:{
+          message: `Error decrypting ${_authorizedUser} to access ${_protectedData}`        }
+      }
+    }
+  }
+
+  return { encryptAndPushData, getMyProtectedData, grantAccess, decryptData };
 };
