@@ -4,18 +4,8 @@ import React from "react";
 import {
   AdmonitionDirectiveDescriptor,
   BoldItalicUnderlineToggles,
-  ChangeCodeMirrorLanguage,
-  ConditionalContents,
-  DiffSourceToggleWrapper,
-  InsertCodeBlock,
-  InsertFrontmatter,
-  InsertImage,
-  InsertSandpack,
   InsertTable,
-  KitchenSinkToolbar,
   MDXEditor,
-  SandpackConfig,
-  ShowSandpackInfo,
   UndoRedo,
   codeBlockPlugin,
   codeMirrorPlugin,
@@ -24,22 +14,22 @@ import {
   frontmatterPlugin,
   headingsPlugin,
   imagePlugin,
-  linkDialogPlugin,
   linkPlugin,
   listsPlugin,
   markdownShortcutPlugin,
   quotePlugin,
-  sandpackPlugin,
   tablePlugin,
   thematicBreakPlugin,
   toolbarPlugin,
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
 
-const Editor: React.FC = () => {
+export default function Editor({ defaultValue, onChange }: { defaultValue: string; onChange: (text: string) => void }) {
   return (
     <div className="w-full flex mt-2 min-w-full max-w-full h-full">
       <MDXEditor
+        onChange={(text: string) => console.log(text)}
+        defaultValue={defaultValue}
         className="dark-theme dark-editor w-full bg-transparent border-2 rounded-lg flex flex-col"
         markdown={"Daje roma"}
         contentEditableClassName="w-full"
@@ -66,7 +56,6 @@ const Editor: React.FC = () => {
           quotePlugin(),
           headingsPlugin(),
           linkPlugin(),
-          //   linkDialogPlugin(),
           imagePlugin(),
           tablePlugin(),
           thematicBreakPlugin(),
@@ -79,6 +68,4 @@ const Editor: React.FC = () => {
       />
     </div>
   );
-};
-
-export default Editor;
+}

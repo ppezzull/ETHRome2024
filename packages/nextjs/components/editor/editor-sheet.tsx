@@ -17,6 +17,9 @@ import { useAddData } from "@/context/add-data-sheet-context";
 export default function AddNoteEditor() {
   const { open, setOpen } = useAddData();
 
+	
+
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetContent className="w-[400px] sm:w-[540px] flex flex-col">
