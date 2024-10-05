@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "../ui/button";
+import { useAddData } from "@/context/add-data-sheet-context";
 import { createArrayBufferFromFile } from "@/utils/iExec/utils";
 import { IExecDataProtector } from "@iexec/dataprotector";
 import { toast } from "sonner";
@@ -11,7 +12,8 @@ const BELLECOUR_CHAIN_ID = 134;
 
 export default function CreateData({ data, dataName }: { data: string | null; dataName: string | null }) {
   const [loading, setLoading] = useState(false);
-  const { switchChain, chains, switchChainAsync } = useSwitchChain();
+  const { switchChain } = useSwitchChain();
+  const { setOpen } = useAddData();
 
   const createFile = async () => {
     if (!data || !dataName) return;
@@ -60,7 +62,7 @@ export default function CreateData({ data, dataName }: { data: string | null; da
       const chainId = await window.ethereum.request({ method: "eth_chainId" });
 
       if (Number(chainId) !== BELLECOUR_CHAIN_ID) {
-        toast("Invalid network, re-try on Bellecour network.");
+        toast("Invalid network, trying to switch to Bellecour network...");
         switchChain({ chainId: BELLECOUR_CHAIN_ID });
 
         setLoading(false);
@@ -75,10 +77,15 @@ export default function CreateData({ data, dataName }: { data: string | null; da
           file: bufferFile,
         },
       });
-
-      console.log("DONE");
+      setLoading(false);
+      setOpen(false);
+      toast("Data saved and encrypted successfully.");
     } catch (e) {}
   };
 
-  return <Button onClick={handleSave}>{loading ? "Saving..." : "Save"}</Button>;
+  return (
+    <Button onClick={handleSave} disabled={loading}>
+      {loading ? "Waiting..." : "Save and crypt data"}
+    </Button>
+  );
 }

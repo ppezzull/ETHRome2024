@@ -6,9 +6,7 @@ import DisconnectButton from "../auth/disconnect-button";
 import { Separator } from "../ui/separator";
 import { AccountSwitcher } from "./account-switcher";
 import Links from "./links";
-import { useWatchBalance } from "@/hooks/scaffold-eth";
-import { HistoryIcon, Inbox, Settings, User2, Users2 } from "lucide-react";
-import { useAccount } from "wagmi";
+import { HistoryIcon, RadioTower, Settings, User2, Vault } from "lucide-react";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -24,8 +22,20 @@ export default function Sidebar() {
                 title: "DefaultVault",
                 label: "",
                 href: "/",
-                icon: Inbox,
+                icon: Vault,
                 variant: pathname === "/" ? "default" : "ghost",
+              },
+            ]}
+          />
+          <Separator className="my-4" />
+          <Links
+            links={[
+              {
+                title: "SharedVault",
+                label: "",
+                href: "/shared",
+                icon: RadioTower,
+                variant: pathname === "/shared" ? "default" : "ghost",
               },
             ]}
           />
@@ -34,25 +44,26 @@ export default function Sidebar() {
           <Links
             links={[
               {
-                title: "Settings",
-                label: "",
-                href: "/settings",
-                icon: Settings,
-                variant: pathname === "/settings" ? "default" : "ghost",
-              },
-              {
-                title: "Shared",
-                label: "",
-                href: "/shared",
-                icon: HistoryIcon,
-                variant: pathname === "/history" ? "default" : "ghost",
-              },
-              {
                 title: "Profile",
                 label: "",
                 href: "/profile",
                 icon: User2,
                 variant: pathname === "/profile" ? "default" : "ghost",
+              },
+
+              {
+                title: "Transactions",
+                label: "",
+                href: "/transactions",
+                icon: HistoryIcon,
+                variant: pathname === "/history" ? "default" : "ghost",
+              },
+              {
+                title: "Settings",
+                label: "",
+                href: "/settings",
+                icon: Settings,
+                variant: pathname === "/settings" ? "default" : "ghost",
               },
             ]}
           />

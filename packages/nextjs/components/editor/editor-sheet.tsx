@@ -25,10 +25,7 @@ export default function AddNoteEditor() {
           />
         </SheetHeader>
         <Editor defaultValue={data} onChange={setData} />
-        <SheetFooter className="flex w-full justify-between">
-          <div className="flex gap-2">
-            <DeleteData />
-          </div>
+        <SheetFooter className="flex w-full justify-end">
           <CreateData data={data} dataName={filename} />
         </SheetFooter>
       </SheetContent>
