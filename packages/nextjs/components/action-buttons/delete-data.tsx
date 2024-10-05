@@ -9,9 +9,9 @@ export default function DeleteData() {
 
   return (
     <Confirmation onConfirm={handleDelete}>
-      <Button variant={"destructive"}>
+      {/*  <Button variant={"destructive"}>
         <Trash2 size={16} />
-      </Button>
+      </Button> */}
     </Confirmation>
   );
 }

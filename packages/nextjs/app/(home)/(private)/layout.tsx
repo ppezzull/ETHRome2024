@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAccount } from "wagmi";
 import MobileNav from "@/components/home/mobile-nav";
+import { useAccount } from "wagmi";
+import { useAccountEffect } from "wagmi";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { isConnected } = useAccount();
@@ -15,6 +16,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       router.push("/auth/login");
     }
   }, [isSSR]);
+
+  useAccountEffect({
+    onConnect(data) {
+      console.log("Connected!", data);
+    },
+    onDisconnect() {
+      console.log("Disconnected!");
+    },
+  });
 
   useEffect(() => {
     setTimeout(() => {
