@@ -1,55 +1,55 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { createArrayBufferFromFile } from '@/utils/iExec/utils';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { getDataProtectorClient } from '@/utils/iExec/dataProtectorClient.ts';
+import { IExecDataProtector } from '@iexec/dataprotector';
+
+const BELLECOUR_CHAIN_ID = 134
 
 export default function UploadFile() {
   const [file, setFile] = useState<File | null>(null);
-  const [name, setName] = useState('');
+  const [dataName, setDataName] = useState('');
 
-  const handleSubmit = async () => {
-    const data: {
-      email?: string;
-      file?: Uint8Array;
-    } = {};
-    let bufferFile: Uint8Array;
-
-    if (!file) {
-      console.log("Inserisci il file brutto cane");
-      
+  const protectData = async () => {
+    if (!window.ethereum) {
+      setErrorMessage('Missing Ethereum provider. Please install Metamask.');
       return;
     }
-    bufferFile = await createArrayBufferFromFile(file);
-    data.file = bufferFile;
 
-    createProtectedDataMutation.mutate({ data, name });
-  };
+    const accounts = await window.ethereum.request({
+      method: 'eth_requestAccounts',
+    });
 
-  const createProtectedDataMutation = useMutation({
-    mutationKey: ['protectData'],
-    mutationFn: async ({
-      name,
-      data,
-    }: {
-      name: string;
+    // @ts-ignore
+    const userAddress = accounts?.[0];
+
+    if (!userAddress) {
+      setErrorMessage('Missing user address?');
+      return;
+    }
+
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    if (Number(chainId) !== BELLECOUR_CHAIN_ID) {
+      setErrorMessage('Invalid network, please switch to Bellecour network.');
+      return;
+    }
+
+    const bufferFile = await createArrayBufferFromFile(file);
+    const dataProtector = new IExecDataProtector(window.ethereum);
+    await dataProtector.protectData({
+      name: dataName,
       data: {
-        email?: string;
-        file?: Uint8Array;
-      };
-    }) => {
-      const { dataProtector } = await getDataProtectorClient();
-      return dataProtector.protectData({ name, data });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['myProtectedData'] });
+        file: bufferFile,
+      },
+      onStatusUpdate: ({ title, isDone }) => {
+        console.log(title, { isDone });
+      },
+    });
 
-      setTimeout(() => {}, 1500);
-    },
-  });
+    console.log('DONE');
+  };
 
   return (
     <div className="flex flex-col items-center gap-8">
@@ -69,11 +69,11 @@ export default function UploadFile() {
         onChange={event => {
           const name = event.target.value;
           if (name) {
-            setName(name);
+            setDataName(name);
           }
         }}
       />
-      <Button onClick={handleSubmit}>Upload</Button>
+      <Button onClick={protectData}>Upload</Button>
       {file && <p>File: {file.name}</p>}
     </div>
   );
