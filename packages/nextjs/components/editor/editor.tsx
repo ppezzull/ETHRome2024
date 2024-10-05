@@ -35,27 +35,22 @@ export default function Editor({
     <div className="w-full flex mt-2 min-w-full max-w-full h-full">
       <MDXEditor
         onChange={(text: string) => onChange(text)}
-        defaultValue={defaultValue}
         markdown={""}
-        className="dark-theme dark-editor w-full bg-transparent border-2 rounded-lg flex flex-col"
+        className="prose w-full bg-transparent border-2 rounded-lg flex flex-col"
         contentEditableClassName="w-full"
         plugins={[
           directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
           toolbarPlugin({
             toolbarContents: () => (
-              <>
-                <div className="flex justify-between  w-full">
-                  <div className="">
-                    <UndoRedo />
-                  </div>
-                  <div>
+              <div className="flex justify-between  w-full">
+                <div className="flex justify-between w-full">
+                  <UndoRedo />
+                  <div className="flex">
                     <BoldItalicUnderlineToggles />
-                  </div>
-                  <div className="right-10">
                     <InsertTable />
                   </div>
                 </div>
-              </>
+              </div>
             ),
           }),
           listsPlugin(),

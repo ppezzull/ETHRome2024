@@ -35,7 +35,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <>
       {isConnected && (
-        <div className="flex flex-col h-svh py-6 px-4 md:pr-6">
+        <div className="flex flex-col h-svh py-6 px-4 md:pl-0 md:pr-6">
           <MobileNav />
           {children}
         </div>

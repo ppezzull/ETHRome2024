@@ -2,50 +2,45 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { IExecDataProtector } from '@iexec/dataprotector';
-import GetProtectedData from '@/components/getProtectedData/get-protected-data';
-
-const BELLECOUR_CHAIN_ID = 134;
+import { BELLECOUR_CHAIN_ID } from "@/utils/iExec/utils";
+import { IExecDataProtector } from "@iexec/dataprotector";
 
 export default function GetProtectedData() {
-	const [protectedDatas, setProtectedDatas] = useState([]); // State to hold protected data
+  const [protectedDatas, setProtectedDatas] = useState([]); // State to hold protected data
   const [errorMessage, setErrorMessage] = useState<string>("");
-	
+
   const getProtectedData = async () => {
-		try {
-			if (!window.ethereum) {
-				setErrorMessage("Missing Ethereum provider. Please install Metamask.");
+    try {
+      if (!window.ethereum) {
+        setErrorMessage("Missing Ethereum provider. Please install Metamask.");
         return;
       }
-			
+
       const accounts = await window.ethereum.request({
-				method: "eth_requestAccounts",
+        method: "eth_requestAccounts",
       });
-			
+
       const userAddress = accounts?.[0];
-			
+
       if (!userAddress) {
-				setErrorMessage("Missing user address?");
+        setErrorMessage("Missing user address?");
         return;
       }
-			
+
       const chainId = await window.ethereum.request({ method: "eth_chainId" });
       if (Number(chainId) !== BELLECOUR_CHAIN_ID) {
-				setErrorMessage("Invalid network, please switch to Bellecour network.");
+        setErrorMessage("Invalid network, please switch to Bellecour network.");
         return;
       }
-			console.log("before init ");
+      console.log("before init ");
 
-			const dataProtectorCore = new IExecDataProtector(window.ethereum);
-			
-			
-			
+      const dataProtectorCore = new IExecDataProtector(window.ethereum);
+
       // Fetch the protected data owned by the user
-      const protectedDataList = await dataProtectorCore.core.getProtectedData({
-        owner: userAddress
+      const protectedDataList = await (dataProtectorCore as any)?.core.getProtectedData({
+        owner: userAddress,
       });
-			
+
       console.log("test ", protectedDataList);
       setProtectedDatas(protectedDataList); // Store the fetched protected data in state
     } catch (error) {
@@ -69,15 +64,22 @@ export default function GetProtectedData() {
       {protectedDatas.length > 0 ? (
         <div className="w-full max-w-[600px] flex flex-col gap-4">
           {protectedDatas.map((data, index) => (
-            <div
-              key={index}
-              className="p-4 border border-gray-300 rounded-md shadow-md"
-            >
-              <p><strong>Address:</strong> {data.address}</p>
-              <p><strong>Name:</strong> {data.name}</p>
-              <p><strong>Owner:</strong> {data.owner}</p>
-              <p><strong>Multiaddr:</strong> {data.multiaddr}</p>
-              <p><strong>Creation Timestamp:</strong> {new Date(data.creationTimestamp * 1000).toLocaleString()}</p>
+            <div key={index} className="p-4 border border-gray-300 rounded-md shadow-md">
+              <p>
+                <strong>Address:</strong> {data.address}
+              </p>
+              <p>
+                <strong>Name:</strong> {data.name}
+              </p>
+              <p>
+                <strong>Owner:</strong> {data.owner}
+              </p>
+              <p>
+                <strong>Multiaddr:</strong> {data.multiaddr}
+              </p>
+              <p>
+                <strong>Creation Timestamp:</strong> {new Date(data.creationTimestamp * 1000).toLocaleString()}
+              </p>
             </div>
           ))}
         </div>

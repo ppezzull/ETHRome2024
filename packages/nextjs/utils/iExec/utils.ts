@@ -1,6 +1,8 @@
 import { DataSchema } from '@iexec/dataprotector';
 import { TimeStamp } from '@iexec/web3mail';
 
+export const BELLECOUR_CHAIN_ID = 134;
+
 export const isKeyInDataSchema = (
   dataSchema: DataSchema,
   key: string

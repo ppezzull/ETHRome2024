@@ -3,12 +3,10 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { useAddData } from "@/context/add-data-sheet-context";
-import { createArrayBufferFromFile } from "@/utils/iExec/utils";
+import { BELLECOUR_CHAIN_ID, createArrayBufferFromFile } from "@/utils/iExec/utils";
 import { IExecDataProtector } from "@iexec/dataprotector";
 import { toast } from "sonner";
 import { useAccount, useSwitchChain } from "wagmi";
-
-const BELLECOUR_CHAIN_ID = 134;
 
 export default function CreateData({ data, dataName }: { data: string | null; dataName: string | null }) {
   const [loading, setLoading] = useState(false);

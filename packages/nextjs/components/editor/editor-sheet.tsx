@@ -1,4 +1,5 @@
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import CreateData from "../action-buttons/create-data";
 import DeleteData from "../action-buttons/delete-data";
 import { Button } from "../ui/button";
@@ -25,7 +26,7 @@ export default function AddNoteEditor() {
           />
         </SheetHeader>
         <Editor defaultValue={data} onChange={setData} />
-        <SheetFooter className="flex w-full justify-end">
+        <SheetFooter className="flex w-full justify-e">
           <CreateData data={data} dataName={filename} />
         </SheetFooter>
       </SheetContent>
