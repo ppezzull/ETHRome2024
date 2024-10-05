@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useNav } from "@/context/nav-context";
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
 

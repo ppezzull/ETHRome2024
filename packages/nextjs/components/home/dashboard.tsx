@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
+import MobileNav from "./mobile-nav";
 import NoDataFound from "@/components/assets/svgs/no-data-found.svg";
 import { useAddData } from "@/context/add-data-sheet-context";
 import { PlusCircle } from "lucide-react";
@@ -11,7 +12,8 @@ export default function Dashboard() {
   const { setOpen } = useAddData();
 
   return (
-    <div className="flex flex-col h-svh py-6 pr-6">
+    <div className="flex flex-col h-svh py-6 p-4 md:pr-6">
+      <MobileNav />
       <Card className="p-4 h-full flex flex-col">
         <div className="w-full flex justify-between">
           <span className="text-3xl font-bold">Dashboard</span>

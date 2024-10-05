@@ -9,9 +9,10 @@ import { useAccount } from "wagmi";
 
 interface AccountSwitcherProps {
   isCollapsed?: boolean;
+  mobile?: boolean;
 }
 
-export function AccountSwitcher({ isCollapsed = false }: AccountSwitcherProps) {
+export function AccountSwitcher({ isCollapsed = false, mobile = false }: AccountSwitcherProps) {
   const { addresses, address } = useAccount();
 
   const [selectedAccount, setSelectedAccount] = React.useState<string>(address || "");
@@ -20,10 +21,10 @@ export function AccountSwitcher({ isCollapsed = false }: AccountSwitcherProps) {
     <Select defaultValue={selectedAccount} onValueChange={setSelectedAccount}>
       <SelectTrigger
         className={cn(
-          "flex items-center gap-2 w-full mb-6",
-          isCollapsed && "flex h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>svg]:hidden",
+          "flex items-center gap-2 md:w-full ${mobile ? '' : 'mb-6'}",
+          isCollapsed && "w-full flex h-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>svg]:hidden",
         )}
-        aria-label="Select account"
+        aria-label="Select an account"
       >
         <SelectValue placeholder="Select an account" className="flex items-center gap-2">
           {selectedAccount?.slice(0, 10)}...{selectedAccount?.slice(-6)}

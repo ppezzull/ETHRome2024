@@ -27,7 +27,10 @@ export default function Profile() {
                 <AvatarFallback>{address && address.slice(0, 5)}</AvatarFallback>
               </Avatar>
             </QRCodeDialog>
-            <span className="text-lg">{address}</span>
+            <span className="text-lg hidden md:block">{address}</span>
+            <span className="text-lg block md:hidden">
+              {address && address.slice(0, 4)}...{address && address.slice(-4)}
+            </span>
           </div>
           <span className="text-2xl font-bold">
             {balance?.value || 0} {balance?.symbol}

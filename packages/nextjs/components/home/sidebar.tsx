@@ -1,21 +1,29 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import DisconnectButton from "../auth/disconnect-button";
 import { Separator } from "../ui/separator";
 import { AccountSwitcher } from "./account-switcher";
 import Links from "./links";
+import { useNav } from "@/context/nav-context";
 import { HistoryIcon, RadioTower, Settings, User2, Vault } from "lucide-react";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { open } = useNav();
 
   return (
-    <aside className="h-full py-6 px-4 w-[380px] overflow-auto">
+    <aside
+      className={`h-full py-6 px-4 transition-all w-[380px] overflow-auto absolute  ${
+        open ? " border-r-2 z-50 bg-background" : "-ml-96"
+      } md:relative md:ml-0`}
+    >
       <nav className="flex flex-col justify-between h-full gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
         <div className="flex w-full flex-col">
-          <AccountSwitcher />
+          <div className="w-full md:flex mb-6 hidden">
+            <AccountSwitcher />
+          </div>
           <Links
             links={[
               {
