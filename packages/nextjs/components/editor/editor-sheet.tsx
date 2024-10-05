@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -16,9 +17,7 @@ import { useAddData } from "@/context/add-data-sheet-context";
 
 export default function AddNoteEditor() {
   const { open, setOpen } = useAddData();
-
-	
-
+  const [data, setData] = useState<string | null>(null);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -30,7 +29,7 @@ export default function AddNoteEditor() {
             className="w-3/4 border-none outline-none font-bold ring-offset-0 text-3xl focus-visible:ring-0 bg-transparent focus-visible:ring-offset-0 caret-transparent"
           />
         </SheetHeader>
-        <Editor />
+        <Editor defaultValue={data} onChange={setData} />
         <SheetFooter>
           <SheetClose asChild>
             <Button type="submit">Save</Button>

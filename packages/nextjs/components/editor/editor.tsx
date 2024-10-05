@@ -24,14 +24,20 @@ import {
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
 
-export default function Editor({ defaultValue, onChange }: { defaultValue: string; onChange: (text: string) => void }) {
+export default function Editor({
+  defaultValue,
+  onChange = () => {},
+}: {
+  defaultValue?: string | null;
+  onChange?: (text: string) => void;
+}) {
   return (
     <div className="w-full flex mt-2 min-w-full max-w-full h-full">
       <MDXEditor
         onChange={(text: string) => console.log(text)}
         defaultValue={defaultValue}
+        markdown={""}
         className="dark-theme dark-editor w-full bg-transparent border-2 rounded-lg flex flex-col"
-        markdown={"Daje roma"}
         contentEditableClassName="w-full"
         plugins={[
           directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
