@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { Button } from "@/components/ui/button";
+import PulsatingButton from "@/components/ui/pulsating-button";
 import TextShimmer from "@/components/ui/text-shimmer";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { useInView } from "framer-motion";
@@ -30,17 +31,18 @@ export default function HeroSection() {
         Store & share your sensitive personal data securely and privately
         <br className="hidden md:block" /> using advanced blockchain technology.
       </p>
-
-      <Button
-        onClick={() => {
-          router.push("/auth/login");
-        }}
-        className="animate-fade-in -translate-y-4 gap-1 rounded-lg text-white opacity-0 ease-in-out [--animation-delay:600ms] dark:text-black"
-      >
-        <span>Get started for free</span>
-        <ArrowRightIcon className="ml-1 size-4 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
-      </Button>
-
+      <div className="w-full flex justify-center">
+        <PulsatingButton
+          pulseColor="white"
+          onClick={() => {
+            router.push("/auth/login");
+          }}
+          className="whitespace-nowrap animate-fade-in -translate-y-4 gap-1 rounded-lg text-white flex opacity-0 ease-in-out [--animation-delay:600ms] dark:text-black"
+        >
+          <span>Get started for free</span>
+          <ArrowRightIcon className="ml-1 size-4 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
+        </PulsatingButton>
+      </div>
       <div
         ref={ref}
         className="animate-fade-up relative mt-32 opacity-0 [--animation-delay:400ms] [perspective:2000px] after:absolute after:inset-0 after:z-50 after:[background:linear-gradient(to_top,hsl(var(--background))_30%,transparent)]"

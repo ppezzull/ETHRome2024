@@ -7,7 +7,7 @@ import { useWatchBalance } from "@/hooks/scaffold-eth";
 import { useAccount } from "wagmi";
 
 export default function Profile() {
-  const { address, connector } = useAccount();
+  const { address } = useAccount();
   const {
     data: balance,
     isError,
