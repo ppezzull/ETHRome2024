@@ -17,26 +17,24 @@ export default function Profile() {
   });
 
   return (
-    <>
-      <Card className="p-4 h-svh">
-        <span className="text-3xl font-bold">Profile</span>
-        <Card className="p-4 mt-6 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <QRCodeDialog address={address}>
-              <Avatar className="w-16 h-16">
-                <AvatarFallback>{address && address.slice(0, 5)}</AvatarFallback>
-              </Avatar>
-            </QRCodeDialog>
-            <span className="text-lg hidden md:block">{address}</span>
-            <span className="text-lg block md:hidden">
-              {address && address.slice(0, 4)}...{address && address.slice(-4)}
-            </span>
-          </div>
-          <span className="text-2xl font-bold">
-            {balance?.value || 0} {balance?.symbol}
+    <Card className="p-4 h-svh flex-col">
+      <span className="text-3xl font-bold">Profile</span>
+      <Card className="p-4 mt-6 flex justify-between items-center">
+        <div className="flex items-center gap-4">
+          <QRCodeDialog address={address}>
+            <Avatar className="w-16 h-16">
+              <AvatarFallback>{address && address.slice(0, 5)}</AvatarFallback>
+            </Avatar>
+          </QRCodeDialog>
+          <span className="text-lg hidden md:block">{address}</span>
+          <span className="text-lg block md:hidden">
+            {address && address.slice(0, 4)}...{address && address.slice(-4)}
           </span>
-        </Card>
+        </div>
+        <span className="text-2xl font-bold">
+          {balance?.value || 0} {balance?.symbol}
+        </span>
       </Card>
-    </>
+    </Card>
   );
 }
