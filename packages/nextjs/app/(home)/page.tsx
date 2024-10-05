@@ -12,8 +12,6 @@ const LandingPage = dynamic(() => import("@/components/landing/landing-page"), {
 export default function Home() {
   const { isConnected, isConnecting, isReconnecting } = useAccount();
 
-  console.log({ isConnected, isConnecting, isReconnecting });
-
   if (isConnected) {
     return <Dashboard />;
   }

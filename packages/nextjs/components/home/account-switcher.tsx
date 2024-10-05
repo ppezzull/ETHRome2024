@@ -8,11 +8,6 @@ import { useAccount } from "wagmi";
 
 interface AccountSwitcherProps {
   isCollapsed?: boolean;
-  //   accounts: {
-  //     label: string;
-  //     email: string;
-  //     icon: React.ReactNode;
-  //   }[];
 }
 
 export function AccountSwitcher({ isCollapsed = false }: AccountSwitcherProps) {
@@ -31,7 +26,7 @@ export function AccountSwitcher({ isCollapsed = false }: AccountSwitcherProps) {
     <Select defaultValue={selectedAccount} onValueChange={setSelectedAccount}>
       <SelectTrigger
         className={cn(
-          "flex items-center gap-2 w-full",
+          "flex items-center gap-2 w-full mb-6",
           isCollapsed && "flex h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>svg]:hidden",
         )}
         aria-label="Select account"

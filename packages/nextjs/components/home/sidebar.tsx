@@ -1,24 +1,16 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+import { Separator } from "../ui/separator";
 import { AccountSwitcher } from "./account-switcher";
 import Links from "./links";
 import { useWatchBalance } from "@/hooks/scaffold-eth";
-import {
-  AlertCircle,
-  Archive,
-  ArchiveX,
-  File,
-  Inbox,
-  MessagesSquare,
-  Search,
-  Send,
-  ShoppingCart,
-  Trash2,
-  Users2,
-} from "lucide-react";
+import { HistoryIcon, Inbox, Settings, User2, Users2 } from "lucide-react";
 import { useAccount } from "wagmi";
 
 export default function Sidebar() {
+  const pathname = usePathname();
+
   return (
     <aside className="h-full py-6 px-4 w-[380px] overflow-auto">
       <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
@@ -26,80 +18,33 @@ export default function Sidebar() {
         <Links
           links={[
             {
-              title: "Inbox",
-              label: "128",
+              title: "DefaultVault",
+              label: "",
               icon: Inbox,
-              variant: "default",
-            },
-            {
-              title: "Drafts",
-              label: "9",
-              icon: File,
-              variant: "ghost",
-            },
-            {
-              title: "Sent",
-              label: "",
-              icon: Send,
-              variant: "ghost",
-            },
-            {
-              title: "Junk",
-              label: "23",
-              icon: ArchiveX,
-              variant: "ghost",
-            },
-            {
-              title: "Trash",
-              label: "",
-              icon: Trash2,
-              variant: "ghost",
-            },
-            {
-              title: "Archive",
-              label: "",
-              icon: Archive,
-              variant: "ghost",
+              variant: pathname === "/" ? "default" : "ghost",
             },
           ]}
         />
+        <Separator className="my-2" />
         <Links
           links={[
             {
-              title: "Inbox",
-              label: "128",
-              icon: Inbox,
-              variant: "default",
-            },
-            {
-              title: "Drafts",
-              label: "9",
-              icon: File,
-              variant: "ghost",
-            },
-            {
-              title: "Sent",
+              title: "Settings",
               label: "",
-              icon: Send,
-              variant: "ghost",
+              icon: Settings,
+              variant: pathname === "/settings" ? "default" : "ghost",
             },
             {
-              title: "Junk",
-              label: "23",
-              icon: ArchiveX,
-              variant: "ghost",
-            },
-            {
-              title: "Trash",
+              title: "History",
               label: "",
-              icon: Trash2,
-              variant: "ghost",
+              icon: HistoryIcon,
+              variant: pathname === "/history" ? "default" : "ghost",
             },
             {
-              title: "Archive",
+              title: "Profile",
               label: "",
-              icon: Archive,
-              variant: "ghost",
+              icon: User2,
+              variant: pathname === "/profile" ? "default" : "ghost",
             },
           ]}
         />
