@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useNav } from "@/context/nav-context";
 import NProgress from "nprogress";
 
 type PushStateInput = [data: any, unused: string, url?: string | URL | null | undefined];
@@ -8,6 +9,8 @@ type PushStateInput = [data: any, unused: string, url?: string | URL | null | un
 export function ProgressBar() {
   const height = "4px";
   const color = "#b122dd";
+
+  const { open, setOpen } = useNav();
 
   const styles = (
     <style>
@@ -65,6 +68,7 @@ export function ProgressBar() {
     window.history.pushState = new Proxy(window.history.pushState, {
       apply: (target, thisArg, argArray: PushStateInput) => {
         NProgress.done();
+        setOpen(false);
         return target.apply(thisArg, argArray);
       },
     });

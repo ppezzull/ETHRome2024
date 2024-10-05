@@ -1,6 +1,7 @@
 import { Poppins as FontSans } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import NavContextProvider from "@/context/nav-context";
 import "@/styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
@@ -23,10 +24,12 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning>
       <body className={cn("dark min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-        <ScaffoldEthAppWithProviders>
-          <Toaster />
-          {children}
-        </ScaffoldEthAppWithProviders>
+        <NavContextProvider>
+          <ScaffoldEthAppWithProviders>
+            <Toaster />
+            {children}
+          </ScaffoldEthAppWithProviders>
+        </NavContextProvider>
       </body>
     </html>
   );

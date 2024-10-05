@@ -15,7 +15,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`h-full py-6 px-4 transition-all w-[380px] overflow-auto absolute  ${
+      className={`h-full py-6 px-4 transition-all w-[300px] md:w-[380px] overflow-auto absolute  ${
         open ? " border-r-2 z-50 bg-background" : "-ml-96"
       } md:relative md:ml-0`}
     >
