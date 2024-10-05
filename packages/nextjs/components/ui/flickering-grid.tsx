@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 interface FlickeringGridProps {
   squareSize?: number;
@@ -170,7 +164,7 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   return (
     <canvas
       ref={canvasRef}
-      className={`size-full pointer-events-none ${className}`}
+      className={`pointer-events-none ${className}`}
       style={{
         width: width || "100%",
         height: height || "100%",
