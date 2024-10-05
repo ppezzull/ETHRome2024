@@ -6,8 +6,8 @@ import NProgress from "nprogress";
 type PushStateInput = [data: any, unused: string, url?: string | URL | null | undefined];
 
 export function ProgressBar() {
-  const height = "3px";
-  const color = "#2299dd";
+  const height = "4px";
+  const color = "#b122dd";
 
   const styles = (
     <style>
@@ -17,6 +17,7 @@ export function ProgressBar() {
         }
         #nprogress .bar {
           background: ${color};
+		  border-radius: 10px;
           position: fixed;
           z-index: 99999;
           top: 0;
