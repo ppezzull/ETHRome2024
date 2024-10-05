@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useInView, useMotionValue, useSpring } from "framer-motion";
-
 import { cn } from "@/lib/utils";
+import { useInView, useMotionValue, useSpring } from "framer-motion";
 
 export default function NumberTicker({
   value,
@@ -35,7 +34,7 @@ export default function NumberTicker({
 
   useEffect(
     () =>
-      springValue.on("change", (latest) => {
+      springValue.on("change", latest => {
         if (ref.current) {
           ref.current.textContent = Intl.NumberFormat("en-US", {
             minimumFractionDigits: decimalPlaces,
@@ -47,12 +46,6 @@ export default function NumberTicker({
   );
 
   return (
-    <span
-      className={cn(
-        "inline-block tabular-nums text-black dark:text-white tracking-wider",
-        className,
-      )}
-      ref={ref}
-    />
+    <span className={cn("inline-block tabular-nums text-black dark:text-white tracking-wider", className)} ref={ref} />
   );
 }

@@ -1,6 +1,6 @@
-import { Address } from '@/types.ts';
-import type { Connector } from 'wagmi';
-import { create } from 'zustand';
+import { Address } from "viem";
+import type { Connector } from "wagmi";
+import { createStore } from "zustand";
 
 type UserState = {
   connector: Connector | undefined;
@@ -13,7 +13,7 @@ type UserState = {
   setAddress: (param: Address | undefined) => void;
 };
 
-export const useUserStore = create<UserState>((set) => ({
+export const useUserStore = createStore<UserState>(set => ({
   connector: undefined,
   setConnector: (connector: Connector | undefined) => set({ connector }),
   isInitialized: false,

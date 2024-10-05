@@ -4,16 +4,23 @@ import { Input } from "../ui/input";
 import Editor from "./editor";
 import { Sheet, SheetContent, SheetFooter, SheetHeader } from "@/components/ui/sheet";
 import { useAddData } from "@/context/add-data-sheet-context";
+import { Expand, Minimize } from "lucide-react";
 
 export default function AddNoteEditor() {
   const { open, setOpen } = useAddData();
+  const [collapsed, setCollapsed] = useState(true);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<string | null>(null);
   const [filename, setFilename] = useState<string | null>(null);
 
   return (
     <Sheet open={open} onOpenChange={!loading ? setOpen : () => {}}>
-      <SheetContent className="w-[400px] sm:w-[540px] flex flex-col">
+      <SheetContent className={`w-full transition-all ${collapsed ? "sm:w-[540px]" : "w-full"} flex flex-col`}>
+        {collapsed ? (
+          <Expand onClick={() => setCollapsed(!collapsed)} size={20} className="cursor-pointer" />
+        ) : (
+          <Minimize onClick={() => setCollapsed(!collapsed)} size={20} className="cursor-pointer" />
+        )}
         <SheetHeader>
           <Input
             disabled={loading}

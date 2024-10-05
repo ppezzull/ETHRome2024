@@ -2,7 +2,7 @@ import Image from "next/image";
 import ShareSVG from "@/components/assets/svgs/share.svg";
 import { Card } from "@/components/ui/card";
 
-export default function Shared() {
+export default function Transactions() {
   const demo: any[] = [];
 
   return (

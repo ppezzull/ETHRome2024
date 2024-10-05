@@ -3,8 +3,10 @@
 import React from "react";
 import {
   AdmonitionDirectiveDescriptor,
+  BlockTypeSelect,
   BoldItalicUnderlineToggles,
   InsertTable,
+  ListsToggle,
   MDXEditor,
   UndoRedo,
   codeBlockPlugin,
@@ -51,6 +53,8 @@ export default function Editor({
                   <div className="flex">
                     <BoldItalicUnderlineToggles />
                     <InsertTable />
+                    <ListsToggle />
+                    <BlockTypeSelect />
                   </div>
                 </div>
               </div>
@@ -64,9 +68,6 @@ export default function Editor({
           tablePlugin(),
           thematicBreakPlugin(),
           frontmatterPlugin(),
-          codeBlockPlugin({ defaultCodeBlockLanguage: "txt" }),
-          codeMirrorPlugin({ codeBlockLanguages: { js: "JavaScript", css: "CSS", txt: "text", tsx: "TypeScript" } }),
-          diffSourcePlugin({ viewMode: "rich-text", diffMarkdown: "boo" }),
           markdownShortcutPlugin(),
         ]}
       />
