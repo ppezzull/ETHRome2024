@@ -58,6 +58,19 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      typography: (theme : any) => ({
+        DEFAULT: {
+          css: {
+            margin: "0",
+            h1: { margin: "0", fontWeight: "normal" },
+            h2: { margin: "0", fontWeight: "normal" },
+            h3: { margin: "0", fontWeight: "normal" },
+            h4: { margin: "0", fontWeight: "normal" },
+            h5: { margin: "0", fontWeight: "normal" },
+            h6: { margin: "0", fontWeight: "normal" },
+          },
+        },
+      }),
       keyframes: {
         meteor: {
           "0%": { transform: "rotate(215deg) translateX(0)", opacity: "1" },
@@ -169,7 +182,10 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography")
+  ],
 } satisfies Config;
 
 export default config;
