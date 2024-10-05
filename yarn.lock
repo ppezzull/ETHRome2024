@@ -14469,6 +14469,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"moment@npm:^2.30.1":
+  version: 2.30.1
+  resolution: "moment@npm:2.30.1"
+  checksum: 859236bab1e88c3e5802afcf797fc801acdbd0ee509d34ea3df6eea21eb6bcc2abd4ae4e4e64aa7c986aa6cba563c6e62806218e6412a765010712e5fa121ba6
+  languageName: node
+  linkType: hard
+
 "motion@npm:10.16.2":
   version: 10.16.2
   resolution: "motion@npm:10.16.2"
@@ -17010,6 +17017,7 @@ __metadata:
     graphql: ^16.9.0
     husky: ~8.0.3
     lint-staged: ~13.2.2
+    moment: ^2.30.1
     ra-data-graphql: ^5.2.2
     typescript: ^5.6.2
   languageName: unknown

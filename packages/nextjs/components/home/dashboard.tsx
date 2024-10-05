@@ -10,11 +10,12 @@ import { useAddData } from "@/context/add-data-sheet-context";
 import { useiExec } from "@/hooks/iExec/useiExec";
 import { ProtectedData } from "@iexec/dataprotector/dist/src/lib/types";
 import { PlusCircle } from "lucide-react";
+import moment from "moment";
 import { toast } from "sonner";
 
 export default function Dashboard() {
   const [protectedDatas, setProtectedDatas] = useState<ProtectedData[] | null>(null); // State to hold protected data
-
+  const { setOpen, open } = useAddData();
   const iExec = useiExec();
 
   const getProtectedData = async () => {
@@ -27,12 +28,13 @@ export default function Dashboard() {
     }
   };
 
-  // Fetch the protected data when the component mounts
   useEffect(() => {
     getProtectedData();
   }, []);
 
-  const { setOpen } = useAddData();
+  useEffect(() => {
+    if (!open) getProtectedData();
+  }, [open]);
 
   return (
     <div className="flex flex-col h-svh py-6 p-4 md:pr-6">
@@ -51,15 +53,20 @@ export default function Dashboard() {
             </div>
             <div className="h-full flex w-full flex-col mt-5">
               {protectedDatas.length > 0 ? (
-                protectedDatas.map((item, index) => (
-                  <div key={index} className="flex flex-col w-full">
-                    <div className="flex justify-around">
-                      <span className="text-lg">Description</span>
-                      <span className="text-lg">Amount</span>
-                      <span className="text-lg">Description</span>
-                    </div>
-                  </div>
-                ))
+                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                  {protectedDatas.map((item, index) => (
+                    <Card
+                      key={index}
+                      className="cursor-pointer overflow-hidden text-lg font-medium tracking-tighter hover:ring-primary transform-gpu ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-offset-2 w-full h-32 flex flex-col p-2 justify-between"
+                    >
+                      <div className="w-full flex justify-between">
+                        <p className="text-base truncate">{item.name}</p>
+                        <p className="text-sm">{moment(item.creationTimestamp).format("DD/MM/YYYY")}</p>
+                      </div>
+                      <div className="w-full text-sm truncate">{item.owner}</div>
+                    </Card>
+                  ))}
+                </div>
               ) : protectedDatas.length === 0 ? (
                 <div className="flex-1 w-full flex justify-center items-center flex-col gap-6">
                   <Image src={NoDataFound} alt="not found" height={130} width={130} />

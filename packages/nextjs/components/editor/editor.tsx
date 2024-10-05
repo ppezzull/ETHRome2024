@@ -27,15 +27,18 @@ import "@mdxeditor/editor/style.css";
 export default function Editor({
   defaultValue,
   onChange = () => {},
+  readOnly = false,
 }: {
   defaultValue?: string | null;
   onChange?: (text: string) => void;
+  readOnly?: boolean;
 }) {
   return (
     <div className="w-full flex mt-2 min-w-full max-w-full h-full">
       <MDXEditor
         onChange={(text: string) => onChange(text)}
         markdown={""}
+        readOnly={readOnly}
         className="prose w-full bg-transparent border-2 rounded-lg flex flex-col"
         contentEditableClassName="w-full"
         plugins={[
