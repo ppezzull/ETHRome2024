@@ -41,9 +41,9 @@ export default function Sidebar() {
                 variant: pathname === "/settings" ? "default" : "ghost",
               },
               {
-                title: "History",
+                title: "Shared",
                 label: "",
-                href: "/history",
+                href: "/shared",
                 icon: HistoryIcon,
                 variant: pathname === "/history" ? "default" : "ghost",
               },

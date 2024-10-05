@@ -1,38 +1,38 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { createArrayBufferFromFile } from '@/utils/iExec/utils';
-import { IExecDataProtector } from '@iexec/dataprotector';
+import { createArrayBufferFromFile } from "@/utils/iExec/utils";
+import { IExecDataProtector } from "@iexec/dataprotector";
 
-const BELLECOUR_CHAIN_ID = 134
+const BELLECOUR_CHAIN_ID = 134;
 
 export default function UploadFile() {
   const [file, setFile] = useState<File | null>(null);
-  const [dataName, setDataName] = useState('');
+  const [dataName, setDataName] = useState("");
 
   const protectData = async () => {
     if (!window.ethereum) {
-      setErrorMessage('Missing Ethereum provider. Please install Metamask.');
+      setErrorMessage("Missing Ethereum provider. Please install Metamask.");
       return;
     }
 
     const accounts = await window.ethereum.request({
-      method: 'eth_requestAccounts',
+      method: "eth_requestAccounts",
     });
 
     // @ts-ignore
     const userAddress = accounts?.[0];
 
     if (!userAddress) {
-      setErrorMessage('Missing user address?');
+      setErrorMessage("Missing user address?");
       return;
     }
 
-    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    const chainId = await window.ethereum.request({ method: "eth_chainId" });
     if (Number(chainId) !== BELLECOUR_CHAIN_ID) {
-      setErrorMessage('Invalid network, please switch to Bellecour network.');
+      setErrorMessage("Invalid network, please switch to Bellecour network.");
       return;
     }
 
@@ -48,7 +48,7 @@ export default function UploadFile() {
       },
     });
 
-    console.log('DONE');
+    console.log("DONE");
   };
 
   return (

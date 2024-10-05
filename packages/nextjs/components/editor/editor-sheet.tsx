@@ -12,10 +12,6 @@ export default function AddNoteEditor() {
   const { open, setOpen } = useAddData();
   const [data, setData] = useState<string | null>(null);
 
-  const handleSave = () => {
-    console.log(data);
-  };
-
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetContent className="w-[400px] sm:w-[540px] flex flex-col">
@@ -31,7 +27,7 @@ export default function AddNoteEditor() {
           <div className="flex gap-2">
             <DeleteData />
           </div>
-          <CreateData onSave={handleSave} />
+          <CreateData data={data} />
         </SheetFooter>
       </SheetContent>
     </Sheet>
