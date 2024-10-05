@@ -34,7 +34,7 @@ export default function Editor({
   return (
     <div className="w-full flex mt-2 min-w-full max-w-full h-full">
       <MDXEditor
-        onChange={(text: string) => console.log(text)}
+        onChange={(text: string) => onChange(text)}
         defaultValue={defaultValue}
         markdown={""}
         className="dark-theme dark-editor w-full bg-transparent border-2 rounded-lg flex flex-col"

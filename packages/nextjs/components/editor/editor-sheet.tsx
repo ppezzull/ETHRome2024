@@ -1,23 +1,20 @@
 import { useState } from "react";
+import CreateData from "../action-buttons/create-data";
+import DeleteData from "../action-buttons/delete-data";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { Label } from "../ui/label";
 import Editor from "./editor";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetFooter, SheetHeader } from "@/components/ui/sheet";
 import { useAddData } from "@/context/add-data-sheet-context";
+import { Share, Trash2 } from "lucide-react";
 
 export default function AddNoteEditor() {
   const { open, setOpen } = useAddData();
   const [data, setData] = useState<string | null>(null);
+
+  const handleSave = () => {
+    console.log(data);
+  };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -30,10 +27,11 @@ export default function AddNoteEditor() {
           />
         </SheetHeader>
         <Editor defaultValue={data} onChange={setData} />
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit">Save</Button>
-          </SheetClose>
+        <SheetFooter className="flex w-full justify-between">
+          <div className="flex gap-2">
+            <DeleteData />
+          </div>
+          <CreateData onSave={handleSave} />
         </SheetFooter>
       </SheetContent>
     </Sheet>
