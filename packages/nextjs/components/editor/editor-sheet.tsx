@@ -11,12 +11,14 @@ import { Share, Trash2 } from "lucide-react";
 export default function AddNoteEditor() {
   const { open, setOpen } = useAddData();
   const [data, setData] = useState<string | null>(null);
+  const [filename, setFilename] = useState<string | null>(null);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetContent className="w-[400px] sm:w-[540px] flex flex-col">
         <SheetHeader>
           <Input
+            onChange={event => setFilename(event.target.value)}
             id="filename"
             placeholder="Untitled"
             className="w-3/4 border-none outline-none font-bold ring-offset-0 text-3xl focus-visible:ring-0 bg-transparent focus-visible:ring-offset-0 caret-transparent"
@@ -27,7 +29,7 @@ export default function AddNoteEditor() {
           <div className="flex gap-2">
             <DeleteData />
           </div>
-          <CreateData data={data} />
+          <CreateData data={data} dataName={filename} />
         </SheetFooter>
       </SheetContent>
     </Sheet>
