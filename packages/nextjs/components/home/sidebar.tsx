@@ -27,7 +27,7 @@ export default function Sidebar() {
           <Links
             links={[
               {
-                title: "DefaultVault",
+                title: "My Data",
                 label: "",
                 href: "/",
                 icon: Vault,
@@ -39,7 +39,7 @@ export default function Sidebar() {
           <Links
             links={[
               {
-                title: "SharedVault",
+                title: "Shared Data",
                 label: "",
                 href: "/shared",
                 icon: RadioTower,
