@@ -13,11 +13,10 @@ export const metadata: Metadata = {
 
 export default function Login() {
   return (
-    <div className="container relative min-h-svh flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+    <div className="overflow-x-hidden container relative min-h-svh flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
         <div className="absolute z-20 inset-0 bg-secondary" />
         <Meteors number={60} />
-
         <div className="relative z-20 flex items-center text-lg font-medium">
           <Image
             src={"https://www.ethrome.org/img/aboveFold/ethRomeLogo_aboveFold.svg"}
@@ -44,17 +43,6 @@ export default function Login() {
             {/* <p className="text-sm text-muted-foreground">Connect your wallet to get started.</p> */}
           </div>
           <UserAuthForm />
-          <p className="px-8 text-center text-sm text-muted-foreground">
-            By clicking continue, you agree to our{" "}
-            <Link href="/terms" className="underline underline-offset-4 hover:text-primary">
-              Terms of Service
-            </Link>{" "}
-            and{" "}
-            <Link href="/privacy" className="underline underline-offset-4 hover:text-primary">
-              Privacy Policy
-            </Link>
-            .
-          </p>
         </div>
       </div>
     </div>

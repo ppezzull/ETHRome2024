@@ -55,6 +55,7 @@ export function ProgressBar() {
       const isTargetBlank = anchor?.target === "_blank";
       if (targetUrl === currentUrl || isTargetBlank) return;
       NProgress.start();
+      setOpen(false);
     };
 
     const handleMutation: MutationCallback = () => {
@@ -68,7 +69,6 @@ export function ProgressBar() {
     window.history.pushState = new Proxy(window.history.pushState, {
       apply: (target, thisArg, argArray: PushStateInput) => {
         NProgress.done();
-        setOpen(false);
         return target.apply(thisArg, argArray);
       },
     });

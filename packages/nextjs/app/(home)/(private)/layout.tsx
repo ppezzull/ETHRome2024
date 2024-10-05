@@ -17,19 +17,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
   }, [isSSR]);
 
-  useAccountEffect({
-    onConnect(data) {
-      console.log("Connected!", data);
-    },
-    onDisconnect() {
-      console.log("Disconnected!");
-    },
-  });
+  //   useAccountEffect({
+  //     onConnect(data) {
+  //       console.log("Connected!", data);
+  //     },
+  //     onDisconnect() {
+  //       console.log("Disconnected!");
+  //     },
+  //   });
 
   useEffect(() => {
     setTimeout(() => {
       setIsSSR(false);
-    }, 3000);
+    }, 1000);
   }, []);
 
   return (
