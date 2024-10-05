@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import DisconnectButton from "../auth/disconnect-button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useWatchBalance } from "@/hooks/scaffold-eth";
 import { cn } from "@/lib/utils";
@@ -12,13 +13,6 @@ interface AccountSwitcherProps {
 
 export function AccountSwitcher({ isCollapsed = false }: AccountSwitcherProps) {
   const { addresses, address } = useAccount();
-  const {
-    data: balance,
-    isError,
-    isLoading,
-  } = useWatchBalance({
-    address,
-  });
 
   const [selectedAccount, setSelectedAccount] = React.useState<string>(address || "");
 

@@ -5,9 +5,8 @@ import { useRouter } from "next/navigation";
 import { useAccount, useWalletClient } from "wagmi";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { isConnected, status, address } = useAccount();
+  const { isConnected } = useAccount();
   const [isSSR, setIsSSR] = useState(true);
-  const { data } = useWalletClient();
   const router = useRouter();
 
   useEffect(() => {
@@ -22,5 +21,5 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }, 3000);
   }, []);
 
-  return <>{isConnected && <div className="p-6">{children}</div>}</>;
+  return <>{isConnected && <div className="py-6">{children}</div>}</>;
 }
