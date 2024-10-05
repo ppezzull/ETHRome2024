@@ -7,7 +7,7 @@ type AddressQRCodeModalProps = {
   modalId: string;
 };
 
-export const AddressQRCodeModal = ({ address, modalId }: AddressQRCodeModalProps) => {
+export const r = ({ address, modalId }: AddressQRCodeModalProps) => {
   return (
     <>
       <div>

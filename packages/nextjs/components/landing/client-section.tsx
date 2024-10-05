@@ -38,20 +38,11 @@ export default function ClientSection() {
 
               <li>
                 <Image
-                  alt="Uber"
-                  src="https://cdn.nyxbui.design/companies/Uber.svg"
-                  className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
-                  width={28}
-                  height={8}
-                />
-              </li>
-              <li>
-                <Image
-                  alt="Notion"
-                  src="https://cdn.nyxbui.design/companies/Notion.svg"
-                  className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
-                  width={28}
-                  height={8}
+                  alt="ETHRome"
+                  src="https://www.ethrome.org/img/aboveFold/ethRomeLogo_aboveFold.svg"
+                  className="h-14 w-28 px-2 dark:brightness-0 dark:invert"
+                  width={48}
+                  height={28}
                 />
               </li>
             </ul>

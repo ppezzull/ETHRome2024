@@ -9,7 +9,7 @@ export default function DisconnectButton() {
 
   return (
     <>
-      <Button variant="default" type="button" onClick={() => disconnect()}>
+      <Button className="w-full" variant="outline" size={"sm"} type="button" onClick={() => disconnect()}>
         <Unplug className="mr-2 h-4 w-4" />
         Disconnect from Wallet
       </Button>

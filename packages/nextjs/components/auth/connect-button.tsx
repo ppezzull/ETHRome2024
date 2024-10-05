@@ -5,9 +5,11 @@ import { useTargetNetwork } from "@/hooks/scaffold-eth";
 import { getBlockExplorerAddressLink } from "@/utils/scaffold-eth";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { GlobeLock } from "lucide-react";
+import { useAccount } from "wagmi";
 
 export default function ConnectButtonCustom() {
   const { targetNetwork } = useTargetNetwork();
+  const {  } = useAccount();
 
   return (
     <ConnectButton.Custom>
