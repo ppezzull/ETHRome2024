@@ -9,7 +9,7 @@ const LandingPage = dynamic(() => import("@/components/landing/landing-page"), {
   ssr: false, // This component will not be server-side rendered
 });
 
-const Home: NextPage = () => {
+export default function Home() {
   const { isConnected, isConnecting, isReconnecting } = useAccount();
 
   console.log({ isConnected, isConnecting, isReconnecting });
@@ -19,6 +19,4 @@ const Home: NextPage = () => {
   }
 
   return <LandingPage />;
-};
-
-export default Home;
+}
