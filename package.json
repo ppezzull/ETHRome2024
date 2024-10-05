@@ -43,6 +43,10 @@
     "node": ">=18.17.0"
   },
   "dependencies": {
-    "@mdxeditor/editor": "^3.11.5"
+    "@iexec/dataprotector": "^2.0.0-beta.10",
+    "@iexec/web3mail": "^1.0.4",
+    "@mdxeditor/editor": "^3.11.5",
+    "graphql": "^16.9.0",
+    "ra-data-graphql": "^5.2.2"
   }
 }
