@@ -30,7 +30,7 @@ export default function Sidebar() {
             ]}
           />
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-1">
           <Links
             links={[
               {
