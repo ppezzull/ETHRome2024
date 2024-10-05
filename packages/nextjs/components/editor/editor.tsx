@@ -39,7 +39,7 @@ export default function Editor({
         onChange={(text: string) => onChange(text)}
         markdown={""}
         readOnly={readOnly}
-        className="prose w-full bg-transparent border-2 rounded-lg flex flex-col"
+        className="prose dark:prose-invert prose-p:mt-0 prose-p:mb-0 w-full bg-transparent border-2 rounded-lg flex flex-col"
         contentEditableClassName="w-full"
         plugins={[
           directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
