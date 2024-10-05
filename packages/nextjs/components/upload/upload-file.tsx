@@ -38,7 +38,8 @@ export default function UploadFile() {
 
     const bufferFile = await createArrayBufferFromFile(file);
     const dataProtector = new IExecDataProtector(window.ethereum);
-    await dataProtector.protectData({
+    console.log(dataProtector);
+    await dataProtector.core.protectData({
       name: dataName,
       data: {
         file: bufferFile,
