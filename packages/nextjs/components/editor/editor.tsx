@@ -32,11 +32,11 @@ export default function Editor({
   onChange?: (text: string) => void;
 }) {
   return (
-    <div className="w-full flex mt-2 min-w-full max-w-full h-full">
+    <div className="w-full flex mt-2 min-w-full max-w-full h-full text-white p-0">
       <MDXEditor
         onChange={(text: string) => onChange(text)}
         markdown={""}
-        className="prose w-full bg-transparent border-2 rounded-lg flex flex-col"
+        className="prose dark:prose-invert prose-p:mt-0 prose-p:mb-0  w-full bg-transparent border-2 rounded-lg flex flex-col p-0"
         contentEditableClassName="w-full"
         plugins={[
           directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
