@@ -12,27 +12,6 @@ import { toast } from "sonner";
 export default function Shared() {
   const [sharedData, setSharedData] = useState<GrantedAccess[] | null>(null);
   const { setOpen, open } = useAddData();
-  const iExec = useiExec();
-
-  const getGrantedAccess = async () => {
-    const { data, error } = await iExec.getGrantedAccess();
-    if (error || !data) {
-      toast.message(error?.message || "Error fetching protected data");
-      setSharedData([]);
-      return;
-    } else {
-      setSharedData(data.grantedAccess);
-      console.log(data);
-    }
-  };
-
-  useEffect(() => {
-    getGrantedAccess();
-  }, []);
-
-  useEffect(() => {
-    if (!open) getGrantedAccess();
-  }, [open]);
 
   return (
     <Card className="p-4 h-svh flex flex-col">
