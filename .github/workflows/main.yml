@@ -13,8 +13,8 @@ steps:
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
-- run: npm ci
-- run: npm run build
+    - run: npm ci
+    - run: npm run build
     
     - name: Upload to IPFS
       uses: aquiladev/ipfs-action@v0.1.2-alpha
