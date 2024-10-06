@@ -4,14 +4,16 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
-import DataCard from "./data-card";
 import MobileNav from "./mobile-nav";
 import NoDataFound from "@/components/assets/svgs/no-data-found.svg";
 import { useAddData } from "@/context/add-data-sheet-context";
 import { useiExec } from "@/hooks/iExec/useiExec";
 import { ProtectedData } from "@iexec/dataprotector/dist/src/lib/types";
 import { Plus, PlusCircle } from "lucide-react";
+import moment from "moment";
 import { toast } from "sonner";
+import DataCard from "./data-card";
+import { Input } from "../ui/input";
 
 export default function Dashboard() {
   const [protectedDatas, setProtectedDatas] = useState<ProtectedData[] | null>(null); // State to hold protected data
@@ -22,13 +24,13 @@ export default function Dashboard() {
     const { data, error } = await iExec.getMyProtectedData();
     if (error || !data) {
       toast.message(error?.message || "Error fetching protected data");
-      setProtectedDatas([]);
       return;
     } else {
       setProtectedDatas(data);
-      console.log(data);
     }
   };
+
+  const [filter, setFilter] = useState<string>(''); // Rename useFilter to setFilter for clarity
 
   useEffect(() => {
     getProtectedData();
@@ -41,17 +43,17 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col h-svh py-6 p-4 md:pr-6">
       <MobileNav />
-      <Card className={`p-4 h-full flex flex-col overflow-auto`}>
+      <Card className={`p-4 h-full flex flex-col`}>
         {protectedDatas && (
           <>
-            <div className="w-full flex justify-between">
+            <div className="w-full flex flex-row mb:flex-col justify-between">
               <span className="text-3xl font-bold">My data</span>
-              {/* {protectedDatas.length > 0 && (
-                <Button onClick={() => setOpen(true)} variant={"default"} className="flex gap-2" size={"sm"}>
-                  <PlusCircle className="h-4 w-4" />
-                  Aggiungi dato
-                </Button>
-              )} */}
+              <Input
+                onChange={(e) => setFilter(e.target.value)} // Change the filter value
+                id="filter"
+                placeholder="Filtra per nome"
+                className="mb:w-full w-[20%] rounded-full"
+              />
             </div>
             <div className="h-full flex w-full flex-col mt-5">
               {protectedDatas.length > 0 ? (
@@ -62,9 +64,13 @@ export default function Dashboard() {
                   >
                     <Plus size={50} strokeWidth={1} className="opacity-20" />
                   </Card>
-                  {protectedDatas.map((item, index) => (
-                    <DataCard key={index} item={item} />
-                  ))}
+
+                  {/* Apply the filter */}
+                  {protectedDatas
+                    .filter((item: any) => item.name && item.name.toLowerCase().includes(filter.toLowerCase())) // Filter by name
+                    .map((item, index) => (
+                      <DataCard key={index} item={item} />
+                    ))}
                 </div>
               ) : protectedDatas.length === 0 ? (
                 <div className="flex-1 w-full flex justify-center items-center flex-col gap-6">

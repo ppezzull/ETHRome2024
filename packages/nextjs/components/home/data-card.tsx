@@ -13,7 +13,13 @@ export default function DataCard({ item }: { item: ProtectedData }) {
   const [loadingData, setLoadingData] = useState(false);
 
   const decryptData = async () => {
-    const demo = iExec.get
+
+    console.log("DEMO");
+
+    const {data , error } = await iExec.decryptData(item.address);
+
+
+    console.log(data);
     /* setLoadingData(true);
     const { data, error } = await iExec.consumeData(item.address);
     if (error || !data) {

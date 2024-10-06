@@ -304,6 +304,8 @@ export const useiExec = () => {
         maxPrice: 0,
       });
 
+      console.log("processProtectedDataResponse", processProtectedDataResponse);
+
       return {
         data: processProtectedDataResponse.result,
         error: null,
@@ -466,11 +468,15 @@ export const useiExec = () => {
     const dataProtectorSharing = dataProtector.sharing;
 
     const rentResult = await dataProtectorSharing.rentProtectedData({
-      protectedData: "0x123abc...",
-      price: 1, // 1 nRLC
-      duration: 60 * 60 * 24 * 2, // 172,800 sec = 2 days
+      protectedData: "0x0471df8255653184f06fb05f94db64d912a7383c",
+      price: 0,
+      duration: 60 * 60 * 24 * 2,
     });
+
+    console.log("rentResult", rentResult);
   };
+
+  //0x1cb7d4f3ffa203f211e57357d759321c6ce49921
 
   return {
     encryptAndPushData,
@@ -483,5 +489,6 @@ export const useiExec = () => {
     setProtectedDataToRenting,
     getrotectedDataInCollection,
     removeProtectedDataFromCollection,
+    rentProtectedData,
   };
 };
