@@ -44,7 +44,7 @@ export default function DataCard({ item }: { item: ProtectedData }) {
         <p className="text-base truncate">{item.name}</p>
         <p className="text-sm">{moment(item.creationTimestamp).format("DD/MM/YYYY")}</p>
       </div>
-      <div className="w-full text-sm truncate">{item.owner}</div>
+      <div className="w-full text-sm truncate">{item.address}</div>
     </Card>
   );
 }
