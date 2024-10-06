@@ -22,12 +22,13 @@ export default function CreateData({
 
   const handleSave = async () => {
     setLoading(true);
-    if (!data || !dataName) return;
+    if (!data || !dataName || data == "" || dataName == "") {
+      setLoading(false);
+      return;
+    }
     const { data: dataCreated, error } = await iExec.encryptAndPushData(data, dataName);
 
     console.log(dataCreated);
-
-	
 
     if (error || !dataCreated) {
       toast.error(error.message);

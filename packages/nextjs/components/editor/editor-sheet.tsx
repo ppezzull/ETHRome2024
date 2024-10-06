@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateData from "../action-buttons/create-data";
 import { Input } from "../ui/input";
 import Editor from "./editor";
@@ -7,23 +7,37 @@ import { useAddData } from "@/context/add-data-sheet-context";
 import { Expand, Minimize } from "lucide-react";
 
 export default function AddNoteEditor() {
-  const { open, setOpen, title, content } = useAddData();
+  const { open, setOpen, title, content, setTitle, setContent } = useAddData();
   const [collapsed, setCollapsed] = useState(true);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<string>("");
   const [filename, setFilename] = useState<string | null>(null);
 
+  const changeSize = () => {
+    if (loading) return;
+    setCollapsed(!collapsed);
+  };
+
+  useEffect(() => {
+    if (!open) {
+      setFilename("");
+      setData("");
+      setTitle("");
+      setContent("");
+    }
+  }, [open]);
+
   return (
-    <Sheet open={open} onOpenChange={!loading ? setOpen : () => {}}>
+    <Sheet open={open} onOpenChange={!loading || title != "" ? setOpen : () => {}}>
       <SheetContent className={`w-full transition-all ${collapsed ? "sm:w-[540px]" : "w-full"} flex flex-col`}>
         {collapsed ? (
-          <Expand onClick={() => setCollapsed(!collapsed)} size={20} className="cursor-pointer" />
+          <Expand onClick={changeSize} size={20} className="cursor-pointer" />
         ) : (
-          <Minimize onClick={() => setCollapsed(!collapsed)} size={20} className="cursor-pointer" />
+          <Minimize onClick={changeSize} size={20} className="cursor-pointer" />
         )}
         <SheetHeader>
           <Input
-            disabled={loading}
+            disabled={loading || title != ""}
             defaultValue={title}
             onChange={event => setFilename(event.target.value)}
             id="filename"
@@ -31,8 +45,13 @@ export default function AddNoteEditor() {
             className="w-3/4 border-none outline-none font-bold ring-offset-0 text-3xl focus-visible:ring-0 bg-transparent focus-visible:ring-offset-0 caret-transparent"
           />
         </SheetHeader>
-        <Editor readOnly={loading} defaultValue={content} value={data} onChange={setData} />
-        <SheetFooter className={`flex w-full ${title ? "justify-end" : ""}`}>
+        <Editor
+          readOnly={loading || title != ""}
+          defaultValue={""}
+          value={content ? content : data}
+          onChange={setData}
+        />
+        <SheetFooter className={`flex w-full ${!title ? "justify-end" : ""}`}>
           {!title && !content && (
             <CreateData loading={loading} setLoading={setLoading} data={data} dataName={filename} />
           )}
