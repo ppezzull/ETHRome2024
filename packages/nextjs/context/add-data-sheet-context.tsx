@@ -5,16 +5,21 @@ import { createContext, useContext, useState } from "react";
 const AddDataContext = createContext({
   open: false,
   setOpen: (open: boolean) => {},
-  //   product: null,
-  //   setItem: (product: any) => {},
+  title: "",
+  setTitle: (title: string) => {},
+  content: "",
+  setContent: (content: string) => {},
 });
 
 export default function AddDataContextProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState<boolean>(false);
-  //   const [product, setProduct] = useState<any>(null);
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
 
   return (
-    <AddDataContext.Provider value={{ open, setOpen /* product, setProduct */ }}>{children}</AddDataContext.Provider>
+    <AddDataContext.Provider value={{ open, setOpen, title, setTitle, content, setContent }}>
+      {children}
+    </AddDataContext.Provider>
   );
 }
 
