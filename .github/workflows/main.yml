@@ -9,22 +9,31 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Setup Node
-        uses: actions/setup-node@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '10.x'
+          node-version: '18.x'  # Consiglio di usare una versione LTS stabile
 
-      - run: npm ci
+      - name: Install dependencies
+        run: yarn
 
-      - run: npm run build
+      - name: Build project
+        run: yarn next:build
+
+      - name: List files after build
+        run: ls -la
 
       - name: Upload to IPFS
-        uses: aquiladev/ipfs-action@v0.1.2-alpha
         id: upload
+        uses: aquiladev/ipfs-action@master
         with:
-          path: ./build
+            path: ./out  
+            service: infura
+            infuraProjectId: ${{ secrets.INFURA_PROJECT_ID }}
+            infuraProjectSecret: ${{ secrets.INFURA_PROJECT_SECRET }}
 
       - name: Update ENS
         uses: aquiladev/ddns-action@v0.1.1

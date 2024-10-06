@@ -2,7 +2,9 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ['@mdxeditor/editor'],
+  transpilePackages: ["@mdxeditor/editor"],
+  output: "export",
+  distDir: "../../out",
   reactStrictMode: true,
   typescript: {
     ignoreBuildErrors: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
