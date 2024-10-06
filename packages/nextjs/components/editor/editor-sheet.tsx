@@ -32,7 +32,7 @@ export default function AddNoteEditor() {
           />
         </SheetHeader>
         <Editor readOnly={loading} defaultValue={content} value={data} onChange={setData} />
-        <SheetFooter className="flex w-full justify-end">
+        <SheetFooter className={`flex w-full ${title ? "justify-end" : ""}`}>
           {!title && !content && (
             <CreateData loading={loading} setLoading={setLoading} data={data} dataName={filename} />
           )}
