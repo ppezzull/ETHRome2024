@@ -5,6 +5,8 @@ import Editor from "./editor";
 import { Sheet, SheetContent, SheetFooter, SheetHeader } from "@/components/ui/sheet";
 import { useAddData } from "@/context/add-data-sheet-context";
 import { Expand, Minimize } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../ui/button";
 
 export default function AddNoteEditor() {
   const { open, setOpen,  } = useAddData();
@@ -12,6 +14,9 @@ export default function AddNoteEditor() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<string | null>(null);
   const [filename, setFilename] = useState<string | null>(null);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  setOpen(true);
 
   return (
     <Sheet open={open} onOpenChange={!loading ? setOpen : () => {}}>
@@ -31,8 +36,13 @@ export default function AddNoteEditor() {
           />
         </SheetHeader>
         <Editor readOnly={loading} defaultValue={data} onChange={setData} />
-        <SheetFooter className="flex w-full justify-end">
-          <CreateData loading={loading} setLoading={setLoading} data={data} dataName={filename} />
+        <SheetFooter className="flex w-full">
+          <Popover>
+            <Button >
+              <PopoverTrigger>Shere</PopoverTrigger>
+            </Button>
+            <PopoverContent>Place content for the popover here.</PopoverContent>
+          </Popover>
         </SheetFooter>
       </SheetContent>
     </Sheet>
