@@ -1,13 +1,10 @@
-import { DataSchema } from '@iexec/dataprotector';
-import { TimeStamp } from '@iexec/web3mail';
+import { DataSchema } from "@iexec/dataprotector";
+import { TimeStamp } from "@iexec/web3mail";
 
 export const BELLECOUR_CHAIN_ID = 134;
 export const IEXEC_APP = "0x329f35b4f56956f8f601003508ff506b62fe833c";
 
-export const isKeyInDataSchema = (
-  dataSchema: DataSchema,
-  key: string
-): boolean => {
+export const isKeyInDataSchema = (dataSchema: DataSchema, key: string): boolean => {
   if (!dataSchema) {
     return false;
   }
@@ -17,11 +14,7 @@ export const isKeyInDataSchema = (
   }
 
   for (const value of Object.values(dataSchema)) {
-    if (
-      typeof value === 'object' &&
-      value !== null &&
-      isKeyInDataSchema(value as DataSchema, key)
-    ) {
+    if (typeof value === "object" && value !== null && isKeyInDataSchema(value as DataSchema, key)) {
       return true;
     }
   }
@@ -30,21 +23,19 @@ export const isKeyInDataSchema = (
 };
 
 export const getTypeOfProtectedData = (schema?: DataSchema) => {
-  return isKeyInDataSchema(schema || {}, 'email')
-    ? 'Email'
-    : isKeyInDataSchema(schema || {}, 'file')
-      ? 'File'
-      : 'Unknown type';
+  return isKeyInDataSchema(schema || {}, "email")
+    ? "Email"
+    : isKeyInDataSchema(schema || {}, "file")
+    ? "File"
+    : "Unknown type";
 };
 
-export const createArrayBufferFromFile = async (
-  file: File
-): Promise<Uint8Array> => {
+export const createArrayBufferFromFile = async (file: File): Promise<Uint8Array> => {
   const fileReader = new FileReader();
   return new Promise((resolve, reject) => {
     fileReader.onerror = () => {
       fileReader.abort();
-      reject(new DOMException('Error parsing input file.'));
+      reject(new DOMException("Error parsing input file."));
     };
     fileReader.onload = () => {
       resolve(fileReader.result as Uint8Array);
@@ -54,16 +45,12 @@ export const createArrayBufferFromFile = async (
 };
 
 // from TimeStamp => 2023-06-23T17:46:37.212Z
-export const getLocalDateFromTimeStamp = (
-  timestamp: TimeStamp | number
-): string => {
+export const getLocalDateFromTimeStamp = (timestamp: TimeStamp | number): string => {
   const date = new Date(timestamp);
   return date.toLocaleDateString();
 };
 
-export const getLocalDateFromBlockchainTimestamp = (
-  timestamp: number
-): string => {
+export const getLocalDateFromBlockchainTimestamp = (timestamp: number): string => {
   const date = new Date(timestamp * 1000);
   return date.toLocaleDateString();
 };

@@ -1,14 +1,9 @@
 "use client";
 
-import { 
-  createArrayBufferFromFile, 
-  BELLECOUR_CHAIN_ID, 
-  IEXEC_APP 
-} from "@/utils/iExec/utils";
+import { BELLECOUR_CHAIN_ID, IEXEC_APP, createArrayBufferFromFile } from "@/utils/iExec/utils";
 import { IExecDataProtector, ProtectedData } from "@iexec/dataprotector";
 import { toast } from "sonner";
 import { useSwitchChain } from "wagmi";
-import { async } from '../../components/editor/imageUploadHandler';
 
 export const useiExec = () => {
   const { switchChain } = useSwitchChain();
@@ -149,7 +144,6 @@ export const useiExec = () => {
     try {
       const { data: file, error: fileError } = await createFile(dataString, dataName);
       const { data: session, error: sessionError } = await checkSession();
-      
 
       if (sessionError?.value || fileError?.value || !session)
         return {
@@ -190,7 +184,7 @@ export const useiExec = () => {
         },
       });
 
-      await grantAccess(protectedData.address, session.userAddress);
+      const { data, error } = await grantAccess(protectedData.address, session.userAddress);
 
       return {
         data: protectedData,
@@ -224,7 +218,6 @@ export const useiExec = () => {
 
       const protectedDataList = await dataProtector.core.getProtectedData({
         owner: session.userAddress,
-        app: IEXEC_APP,
       });
 
       if (!protectedDataList) {
@@ -264,28 +257,31 @@ export const useiExec = () => {
             value: true,
           },
         };
-      
+
       const dataProtector = new IExecDataProtector(window.ethereum);
-      
+
       const grantedAccess = await dataProtector.core.grantAccess({
         protectedData: _protectedData,
         authorizedApp: IEXEC_APP,
         authorizedUser: _authorizedUser,
         pricePerAccess: 0,
         numberOfAccess: 100000000000,
-      })
-      
+      });
+
       return {
         data: grantedAccess,
         error: null,
       };
     } catch (error) {
       return {
-        error:{
-          message: `Error granting access to ${_authorizedUser} to access ${_protectedData}`        }
-      }
+        data: null,
+        error: {
+          message: `Error granting access to ${_authorizedUser} to access ${_protectedData}`,
+          value: true,
+        },
+      };
     }
-  }
+  };
 
   const decryptData = async (_protectedData: string) => {
     try {
@@ -301,11 +297,11 @@ export const useiExec = () => {
         };
 
       const dataProtectorCore = new IExecDataProtector(window.ethereum);
-			
+
       const processProtectedDataResponse = await dataProtectorCore.core.processProtectedData({
-				protectedData: _protectedData, // Pass the specific address
+        protectedData: _protectedData, // Pass the specific address
         app: IEXEC_APP, // Replace with your app's address
-				maxPrice: 0,
+        maxPrice: 0,
       });
 
       return {
@@ -314,11 +310,156 @@ export const useiExec = () => {
       };
     } catch (error) {
       return {
-        error:{
-          message: `Error decrypting ${_authorizedUser} to access ${_protectedData}`        }
-      }
+        error: {
+          message: `Error decrypting data`,
+          value: true,
+        },
+      };
     }
-  }
+  };
 
-  return { encryptAndPushData, getMyProtectedData, grantAccess, decryptData };
+  const consumeData = async (_protectedData: string) => {
+    const { data: session, error: sessionError } = await checkSession();
+
+    if (sessionError?.value || !session)
+      return {
+        data: null,
+        error: {
+          message: "Error creating file or checking session",
+          value: true,
+        },
+      };
+
+    const dataProtector = new IExecDataProtector(window.ethereum);
+    const dataProtectorSharing = dataProtector.sharing;
+
+    const consumeProtectedDataResult = await dataProtectorSharing.consumeProtectedData({
+      protectedData: "0x6e10c706999f7dd6e4c05b1937a9cc47945020d4",
+      app: IEXEC_APP,
+    });
+
+    return { data: consumeProtectedDataResult.result };
+  };
+
+  const createCollection = async () => {
+    const { data: session, error: sessionError } = await checkSession();
+
+    if (sessionError?.value || !session)
+      return {
+        data: null,
+        error: {
+          message: "Error creating file or checking session",
+          value: true,
+        },
+      };
+
+    const dataProtector = new IExecDataProtector(window.ethereum);
+    const dataProtectorSharing = dataProtector.sharing;
+
+    const createCollectionResult = await dataProtectorSharing.createCollection();
+
+    console.log(createCollectionResult);
+  };
+
+  const addDataToCollection = async () => {
+    const { data: session, error: sessionError } = await checkSession();
+
+    if (sessionError?.value || !session)
+      return {
+        data: null,
+        error: {
+          message: "Error creating file or checking session",
+          value: true,
+        },
+      };
+
+    const dataProtector = new IExecDataProtector(window.ethereum);
+    const dataProtectorSharing = dataProtector.sharing;
+    const { txHash } = await dataProtectorSharing.addToCollection({
+      protectedData: "0x6e10c706999f7dd6e4c05b1937a9cc47945020d4",
+      collectionId: 165,
+      addOnlyAppWhitelist: "0x256bcd881c33bdf9df952f2a0148f27d439f2e64",
+    });
+
+    console.log(txHash);
+  };
+
+  const setProtectedDataToRenting = async () => {
+    const { data: session, error: sessionError } = await checkSession();
+
+    if (sessionError?.value || !session)
+      return {
+        data: null,
+        error: {
+          message: "Error creating file or checking session",
+          value: true,
+        },
+      };
+
+    const dataProtector = new IExecDataProtector(window.ethereum);
+    const dataProtectorSharing = dataProtector.sharing;
+
+    const setForRentingResult = await dataProtectorSharing.setProtectedDataToRenting({
+      protectedData: "0x6e10c706999f7dd6e4c05b1937a9cc47945020d4",
+      price: 0, // 1 nRLC
+      duration: 60 * 60 * 24 * 30, // 30 days
+    });
+
+    console.log(setForRentingResult);
+  };
+
+  const getrotectedDataInCollection = async () => {
+    const { data: session, error: sessionError } = await checkSession();
+
+    if (sessionError?.value || !session)
+      return {
+        data: null,
+        error: {
+          message: "Error creating file or checking session",
+          value: true,
+        },
+      };
+
+    const dataProtector = new IExecDataProtector(window.ethereum);
+    const dataProtectorSharing = dataProtector.sharing;
+
+    const oneProtectedData = await dataProtectorSharing.getProtectedDataInCollections({
+      protectedData: "0x6e10c706999f7dd6e4c05b1937a9cc47945020d4",
+    });
+
+    console.log(oneProtectedData);
+  };
+
+  const removeProtectedDataFromCollection = async () => {
+    const { data: session, error: sessionError } = await checkSession();
+
+    if (sessionError?.value || !session)
+      return {
+        data: null,
+        error: {
+          message: "Error creating file or checking session",
+          value: true,
+        },
+      };
+
+    const dataProtector = new IExecDataProtector(window.ethereum);
+    const dataProtectorSharing = dataProtector.sharing;
+
+    const { txHash } = await dataProtectorSharing.removeProtectedDataFromCollection({
+      protectedData: "0x6e10c706999f7dd6e4c05b1937a9cc47945020d4",
+    });
+  };
+
+  return {
+    encryptAndPushData,
+    getMyProtectedData,
+    grantAccess,
+    decryptData,
+    consumeData,
+    createCollection,
+    addDataToCollection,
+    setProtectedDataToRenting,
+    getrotectedDataInCollection,
+    removeProtectedDataFromCollection,
+  };
 };

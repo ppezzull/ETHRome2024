@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
+import DataCard from "./data-card";
 import MobileNav from "./mobile-nav";
 import NoDataFound from "@/components/assets/svgs/no-data-found.svg";
 import { useAddData } from "@/context/add-data-sheet-context";
 import { useiExec } from "@/hooks/iExec/useiExec";
 import { ProtectedData } from "@iexec/dataprotector/dist/src/lib/types";
 import { Plus, PlusCircle } from "lucide-react";
-import moment from "moment";
 import { toast } from "sonner";
 
 export default function Dashboard() {
@@ -22,9 +22,11 @@ export default function Dashboard() {
     const { data, error } = await iExec.getMyProtectedData();
     if (error || !data) {
       toast.message(error?.message || "Error fetching protected data");
+      setProtectedDatas([]);
       return;
     } else {
       setProtectedDatas(data);
+      console.log(data);
     }
   };
 
@@ -39,7 +41,7 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col h-svh py-6 p-4 md:pr-6">
       <MobileNav />
-      <Card className={`p-4 h-full flex flex-col`}>
+      <Card className={`p-4 h-full flex flex-col overflow-auto`}>
         {protectedDatas && (
           <>
             <div className="w-full flex justify-between">
@@ -61,16 +63,7 @@ export default function Dashboard() {
                     <Plus size={50} strokeWidth={1} className="opacity-20" />
                   </Card>
                   {protectedDatas.map((item, index) => (
-                    <Card
-                      key={index}
-                      className="bg-secondary cursor-pointer overflow-hidden text-lg font-medium tracking-tighter hover:ring-secondary transform-gpu ring-offset-secondary transition-all duration-300 ease-out hover:ring-2 hover:ring-offset-2 w-full h-32 flex flex-col p-2 justify-between"
-                    >
-                      <div className="w-full flex justify-between">
-                        <p className="text-base truncate">{item.name}</p>
-                        <p className="text-sm">{moment(item.creationTimestamp).format("DD/MM/YYYY")}</p>
-                      </div>
-                      <div className="w-full text-sm truncate">{item.owner}</div>
-                    </Card>
+                    <DataCard key={index} item={item} />
                   ))}
                 </div>
               ) : protectedDatas.length === 0 ? (
