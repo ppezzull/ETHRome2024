@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '21.x'
+          node-version: '18.x'  # Consiglio di usare una versione LTS stabile
 
       - name: Install dependencies
         run: yarn
@@ -23,11 +23,14 @@ jobs:
       - name: Build project
         run: yarn next:build
 
+      - name: List files after build
+        run: ls -la
+
       - name: Upload to IPFS
         id: upload
         uses: aquiladev/ipfs-action@master
         with:
-            path: ./build
+            path: ./out  
             service: infura
             infuraProjectId: ${{ secrets.INFURA_PROJECT_ID }}
             infuraProjectSecret: ${{ secrets.INFURA_PROJECT_SECRET }}
