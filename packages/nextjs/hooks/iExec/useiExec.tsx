@@ -450,6 +450,28 @@ export const useiExec = () => {
     });
   };
 
+  const rentProtectedData = async () => {
+    const { data: session, error: sessionError } = await checkSession();
+
+    if (sessionError?.value || !session)
+      return {
+        data: null,
+        error: {
+          message: "Error creating file or checking session",
+          value: true,
+        },
+      };
+
+    const dataProtector = new IExecDataProtector(window.ethereum);
+    const dataProtectorSharing = dataProtector.sharing;
+
+    const rentResult = await dataProtectorSharing.rentProtectedData({
+      protectedData: "0x123abc...",
+      price: 1, // 1 nRLC
+      duration: 60 * 60 * 24 * 2, // 172,800 sec = 2 days
+    });
+  };
+
   return {
     encryptAndPushData,
     getMyProtectedData,
