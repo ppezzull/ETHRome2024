@@ -321,6 +321,8 @@ export const useiExec = () => {
         maxPrice: 0,
       });
 
+      console.log("processProtectedDataResponse", processProtectedDataResponse);
+
       const file = await decompressArrayBuffer(processProtectedDataResponse.result, "content");
 
       return {
@@ -491,40 +493,6 @@ export const useiExec = () => {
     });
   };
 
-  const getGrantedAccess = async () => {
-    const { data: session, error: sessionError } = await checkSession();
-
-    if (sessionError?.value || !session)
-      return {
-        data: null,
-        error: {
-          message: "Error creating file or checking session",
-          value: true,
-        },
-      };
-
-    const dataProtector = new IExecDataProtector(window.ethereum);
-    const data = await dataProtector.core.getGrantedAccess({
-      authorizedUser: session.userAddress,
-      authorizedApp: IEXEC_APP,
-    });
-
-    if (!data) {
-      return {
-        data: [],
-        error: {
-          message: "No granted access found",
-          value: true,
-        },
-      };
-    } else {
-      return {
-        data: data,
-        error: null,
-      };
-    }
-  };
-
   return {
     encryptAndPushData,
     getMyProtectedData,
@@ -536,6 +504,5 @@ export const useiExec = () => {
     setProtectedDataToRenting,
     getrotectedDataInCollection,
     removeProtectedDataFromCollection,
-    getGrantedAccess,
   };
 };
