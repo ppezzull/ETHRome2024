@@ -7,6 +7,7 @@ import { useAddData } from "@/context/add-data-sheet-context";
 import { Expand, Minimize } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
 
 export default function AddNoteEditor() {
   const { open, setOpen, title, content } = useAddData();
@@ -14,9 +15,17 @@ export default function AddNoteEditor() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<string>("");
   const [filename, setFilename] = useState<string | null>(null);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [shereUser, setShereUser] = useState<string[]>([]);
+  const [newUser, setNewUser] = useState<string>("");
 
-  setOpen(true);
+
+  // Funzione per gestire l'invio dell'ultimo input
+  const handleUserInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && newUser.trim() !== "") {
+      setShereUser(prevUsers => [...prevUsers || [], newUser.trim()]);
+      setNewUser(''); // Reset dell'input
+    }
+  };
 
   return (
     <Sheet open={open} onOpenChange={!loading ? setOpen : () => {}}>
@@ -37,9 +46,44 @@ export default function AddNoteEditor() {
           />
         </SheetHeader>
         <Editor readOnly={loading} defaultValue={content} value={data} onChange={setData} />
-        <SheetFooter className={`flex w-full ${title ? "justify-end" : ""}`}>
-          {!title && !content && (
+        <SheetFooter className={`flex w-full ${title ? "justify-end" : "justify-start"}`}>
+          {!title &&  !content&& (
             <CreateData loading={loading} setLoading={setLoading} data={data} dataName={filename} />
+          )}
+          {title && content && (
+            <Popover>
+              <PopoverTrigger>
+                <Button
+                  className="animate-pulse group relative gap-2 overflow-hidden text-lg font-medium tracking-tighter hover:ring-primary transform-gpu ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-offset-2"
+                >
+                  <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black" />
+                  {"Shere"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                {shereUser?.map((user, index) => (
+                  <div key={index} className="truncate max-w-xs">
+                    <Badge
+                      className="text-base max-w-xs mb-2"
+                      style={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        maxWidth: "250px" // Limita la larghezza massima del testo nel badge
+                      }}
+                    >
+                      {user}
+                    </Badge>
+                  </div>
+                ))}
+                <Input
+                  value={newUser}
+                  onChange={(event) => setNewUser(event.target.value)}
+                  onKeyDown={handleUserInputKeyPress}
+                  placeholder="Add user and press Enter"
+                />
+              </PopoverContent>
+            </Popover>
           )}
         </SheetFooter>
       </SheetContent>
