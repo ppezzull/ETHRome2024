@@ -79,6 +79,6 @@
   max-height: 400px;
 }
 
-.mdxeditor-diff-source-wrapper {
+.mdxeditor-root-contenteditable {
   overflow: auto;
 }

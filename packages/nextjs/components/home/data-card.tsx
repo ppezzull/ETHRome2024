@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Card } from "../ui/card";
+import { useAddData } from "@/context/add-data-sheet-context";
 import { useiExec } from "@/hooks/iExec/useiExec";
 import { ProtectedData } from "@iexec/dataprotector/dist/src/lib/types";
 import moment from "moment";
@@ -10,6 +11,8 @@ import { toast } from "sonner";
 export default function DataCard({ item }: { item: ProtectedData }) {
   const iExec = useiExec();
   const [loadingData, setLoadingData] = useState(false);
+
+  const { setOpen, setTitle, setContent } = useAddData();
 
   const decryptData = async () => {
     setLoadingData(true);
@@ -23,9 +26,9 @@ export default function DataCard({ item }: { item: ProtectedData }) {
 
     const decoder = new TextDecoder("utf-8");
     const textContent = decoder.decode(data);
-
-    console.log(textContent);
-
+    setContent(textContent);
+    setTitle(item.name);
+    setOpen(true);
     setLoadingData(false);
     toast.message("Data decrypted successfully!");
   };
