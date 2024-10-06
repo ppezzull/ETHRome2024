@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Card } from "../ui/card";
 import { useiExec } from "@/hooks/iExec/useiExec";
-// import { createFileFromArrayBuffer } from "@/utils/iExec/utils";
 import { ProtectedData } from "@iexec/dataprotector/dist/src/lib/types";
 import moment from "moment";
 import { toast } from "sonner";
@@ -13,38 +12,22 @@ export default function DataCard({ item }: { item: ProtectedData }) {
   const [loadingData, setLoadingData] = useState(false);
 
   const decryptData = async () => {
+    setLoadingData(true);
+    const { data, error } = await iExec.decryptData(item.address);
 
-    console.log("DEMO");
-
-    const {data , error } = await iExec.decryptData(item.address);
-
-
-    console.log(data);
-    /* setLoadingData(true);
-    const { data, error } = await iExec.consumeData(item.address);
     if (error || !data) {
       toast.message(error?.message || "Error decrypting data");
       setLoadingData(false);
       return;
     }
+
+    const decoder = new TextDecoder("utf-8");
+    const textContent = decoder.decode(data);
+
+    console.log(textContent);
+
     setLoadingData(false);
-    // Process the decrypted data or initiate download...
-
-    const fileAsBlob = new Blob([data]);
-    const url = window.URL.createObjectURL(fileAsBlob);
-
-    // Crea un elemento <a> temporaneo per il download
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "DEMOOOOO"; // Nome del file per il download
-    document.body.appendChild(a);
-    a.click();
-
-    // Pulizia: rimuovi l'elemento <a> e rilascia l'URL del blob
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-
-    toast.message("Data decrypted successfully!"); */
+    toast.message("Data decrypted successfully!");
   };
 
   return (

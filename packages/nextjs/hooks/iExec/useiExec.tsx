@@ -2,6 +2,7 @@
 
 import { BELLECOUR_CHAIN_ID, IEXEC_APP, createArrayBufferFromFile } from "@/utils/iExec/utils";
 import { IExecDataProtector, ProtectedData } from "@iexec/dataprotector";
+import JSZip from "jszip";
 import { toast } from "sonner";
 import { useSwitchChain } from "wagmi";
 
@@ -283,6 +284,22 @@ export const useiExec = () => {
     }
   };
 
+  const decompressArrayBuffer = async (input: ArrayBuffer, fileName: string): Promise<Uint8Array> => {
+    // Load the ZIP archive
+    const zip = await JSZip.loadAsync(input);
+
+    // Find the specific file inside the ZIP
+    const file = zip.file(fileName);
+
+    if (!file) {
+      throw new Error(`File "${fileName}" not found in the ZIP archive.`);
+    }
+
+    // Extract the file content as Uint8Array
+    const content = await file.async("uint8array");
+    return content;
+  };
+
   const decryptData = async (_protectedData: string) => {
     try {
       const { data: session, error: sessionError } = await checkSession();
@@ -299,21 +316,23 @@ export const useiExec = () => {
       const dataProtectorCore = new IExecDataProtector(window.ethereum);
 
       const processProtectedDataResponse = await dataProtectorCore.core.processProtectedData({
-        protectedData: _protectedData, // Pass the specific address
-        app: IEXEC_APP, // Replace with your app's address
+        protectedData: _protectedData,
+        app: IEXEC_APP,
         maxPrice: 0,
       });
 
       console.log("processProtectedDataResponse", processProtectedDataResponse);
 
+      const file = await decompressArrayBuffer(processProtectedDataResponse.result, "content");
+
       return {
-        data: processProtectedDataResponse.result,
+        data: file,
         error: null,
       };
     } catch (error) {
       return {
         error: {
-          message: `Error decrypting data`,
+          message: `Error decrypting data` + error,
           value: true,
         },
       };
@@ -468,15 +487,11 @@ export const useiExec = () => {
     const dataProtectorSharing = dataProtector.sharing;
 
     const rentResult = await dataProtectorSharing.rentProtectedData({
-      protectedData: "0x0471df8255653184f06fb05f94db64d912a7383c",
-      price: 0,
-      duration: 60 * 60 * 24 * 2,
+      protectedData: "0x123abc...",
+      price: 1, // 1 nRLC
+      duration: 60 * 60 * 24 * 2, // 172,800 sec = 2 days
     });
-
-    console.log("rentResult", rentResult);
   };
-
-  //0x1cb7d4f3ffa203f211e57357d759321c6ce49921
 
   return {
     encryptAndPushData,
@@ -489,6 +504,5 @@ export const useiExec = () => {
     setProtectedDataToRenting,
     getrotectedDataInCollection,
     removeProtectedDataFromCollection,
-    rentProtectedData,
   };
 };
