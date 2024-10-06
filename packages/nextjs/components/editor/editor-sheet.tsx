@@ -7,7 +7,7 @@ import { useAddData } from "@/context/add-data-sheet-context";
 import { Expand, Minimize } from "lucide-react";
 
 export default function AddNoteEditor() {
-  const { open, setOpen } = useAddData();
+  const { open, setOpen,  } = useAddData();
   const [collapsed, setCollapsed] = useState(true);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<string | null>(null);

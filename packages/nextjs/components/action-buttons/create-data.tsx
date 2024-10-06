@@ -24,6 +24,11 @@ export default function CreateData({
     setLoading(true);
     if (!data || !dataName) return;
     const { data: dataCreated, error } = await iExec.encryptAndPushData(data, dataName);
+
+    console.log(dataCreated);
+
+	
+
     if (error || !dataCreated) {
       toast.error(error.message);
       setLoading(false);

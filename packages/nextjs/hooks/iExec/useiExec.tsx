@@ -2,6 +2,7 @@
 
 import { BELLECOUR_CHAIN_ID, IEXEC_APP, createArrayBufferFromFile } from "@/utils/iExec/utils";
 import { IExecDataProtector, ProtectedData } from "@iexec/dataprotector";
+import JSZip from "jszip";
 import { toast } from "sonner";
 import { useSwitchChain } from "wagmi";
 
@@ -283,6 +284,22 @@ export const useiExec = () => {
     }
   };
 
+  const decompressArrayBuffer = async (input: ArrayBuffer, fileName: string): Promise<Uint8Array> => {
+    // Load the ZIP archive
+    const zip = await JSZip.loadAsync(input);
+
+    // Find the specific file inside the ZIP
+    const file = zip.file(fileName);
+
+    if (!file) {
+      throw new Error(`File "${fileName}" not found in the ZIP archive.`);
+    }
+
+    // Extract the file content as Uint8Array
+    const content = await file.async("uint8array");
+    return content;
+  };
+
   const decryptData = async (_protectedData: string) => {
     try {
       const { data: session, error: sessionError } = await checkSession();
@@ -299,19 +316,21 @@ export const useiExec = () => {
       const dataProtectorCore = new IExecDataProtector(window.ethereum);
 
       const processProtectedDataResponse = await dataProtectorCore.core.processProtectedData({
-        protectedData: _protectedData, // Pass the specific address
-        app: IEXEC_APP, // Replace with your app's address
+        protectedData: _protectedData,
+        app: IEXEC_APP,
         maxPrice: 0,
       });
 
+      const file = await decompressArrayBuffer(processProtectedDataResponse.result, "content");
+
       return {
-        data: processProtectedDataResponse.result,
+        data: file,
         error: null,
       };
     } catch (error) {
       return {
         error: {
-          message: `Error decrypting data`,
+          message: `Error decrypting data` + error,
           value: true,
         },
       };
@@ -472,6 +491,40 @@ export const useiExec = () => {
     });
   };
 
+  const getGrantedAccess = async () => {
+    const { data: session, error: sessionError } = await checkSession();
+
+    if (sessionError?.value || !session)
+      return {
+        data: null,
+        error: {
+          message: "Error creating file or checking session",
+          value: true,
+        },
+      };
+
+    const dataProtector = new IExecDataProtector(window.ethereum);
+    const data = await dataProtector.core.getGrantedAccess({
+      authorizedUser: session.userAddress,
+      authorizedApp: IEXEC_APP,
+    });
+
+    if (!data) {
+      return {
+        data: [],
+        error: {
+          message: "No granted access found",
+          value: true,
+        },
+      };
+    } else {
+      return {
+        data: data,
+        error: null,
+      };
+    }
+  };
+
   return {
     encryptAndPushData,
     getMyProtectedData,
@@ -483,5 +536,6 @@ export const useiExec = () => {
     setProtectedDataToRenting,
     getrotectedDataInCollection,
     removeProtectedDataFromCollection,
+    getGrantedAccess,
   };
 };
